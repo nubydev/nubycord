@@ -1,0 +1,41 @@
+{
+  "login_delay_min": 2000,
+  "login_delay_max": 4000,
+  "dm_delay_min": 6000,
+  "dm_delay_max": 8000,
+  "per_token_limit": 0,
+  "token_cooldown_ms": 30000,
+  "dm_messages": [
+    "👾 Hey! A few of us hang out in a Discord where we do games, quizzes, and events.\nFigured you might like it too.\nhttps://discord.gg/v8ZvpchWc4",
+    "🔥 Bored? Come join the fun.\nWe host game nights 🎮, quizzes 🧠, and real-life events 🌟 with an active, friendly community.\nJump in and be part of the vibe.\nhttps://discord.gg/v8ZvpchWc4",
+    "🚀 Quick invite!\nWe’re building a fun community where we host:\n🎮 Game nights\n🧠 Quizzes & challenges\n🌍 IRL events & meetups\nSuper chill people and something happening almost every week.\nJoin us and come vibe 👇\nhttps://discord.gg/v8ZvpchWc4"
+  ],
+  "proxy": {
+    "enabled": false,
+    "proxies": []
+  },
+  "captcha": {
+    "enabled": false,
+    "rotation": false,
+    "services": {
+      "capsolver": {
+        "apiKey": "",
+        "enabled": false
+      },
+      "2captcha": {
+        "apiKey": "",
+        "enabled": false
+      },
+      "anticaptcha": {
+        "apiKey": "",
+        "enabled": false
+      }
+    }
+  },
+  "scraper": {
+    "type": "opcode14",
+    "minAccountAgeMinutes": 0,
+    "filterAdmins": true,
+    "filterBots": true
+  }
+}

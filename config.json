@@ -1,0 +1,34 @@
+{
+  "login_delay_min": 2000,
+  "login_delay_max": 4000,
+  "dm_delay_min": 6000,
+  "dm_delay_max": 8000,
+  "per_token_limit": 0,
+  "token_cooldown_ms": 30000,
+  "notifications_enabled": false,
+  "dm_messages": [
+    "Hey! A few of us hang out in a Discord where we do games, quizzes, and events.\nFigured you might like it too.\nhttps://discord.gg/v8ZvpchWc4",
+    "🎉 Hey! Quick invite.\nA bunch of us are hanging out in a server where we run game nights, quizzes, and real-life meetups. It's honestly becoming a really fun community.\nThought you might enjoy it too.\nCome check it out 👇\nhttps://discord.gg/v8ZvpchWc4",
+    "👾 Hey! A few of us hang out in a Discord where we do games, quizzes, and events.\nFigured you might like it too.\nhttps://discord.gg/v8ZvpchWc4",
+    "🚀 Quick invite!\nWe're building a fun community where we host:\n🎮 Game nights\n🧠 Quizzes & challenges\n🌍 IRL events & meetups\nSuper chill people and something happening almost every week.\nJoin us and come vibe 👇\nhttps://discord.gg/v8ZvpchWc4",
+    "🔥 Bored? Come join the fun.\nWe host game nights 🎮, quizzes 🧠, and real-life events 🌟 with an active, friendly community.\nJump in and be part of the vibe.\nhttps://discord.gg/v8ZvpchWc4"
+  ],
+  "proxy": {
+    "enabled": false,
+    "proxies": []
+  },
+  "captcha": {
+    "enabled": false,
+    "apiKey": "",
+    "service": "2captcha"
+  },
+  "scraper": {
+    "type": "opcode14",
+    "minAccountAgeMinutes": 100,
+    "filterAdmins": true,
+    "filterBots": true
+  },
+  "auto_reply_enabled": false,
+  "auto_reply_message": "",
+  "auto_reply_delay_ms": 3000
+}

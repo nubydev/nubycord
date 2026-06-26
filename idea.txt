@@ -1,0 +1,1 @@
+add a rate-limit per-IP on the /auth/login endpoint to prevent brute-force password attacks (currently unlimited login attempts are allowed). 

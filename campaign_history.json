@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1773333152840,
+    "startTime": "2026-03-12T16:32:20.148Z",
+    "endTime": "2026-03-12T16:32:32.840Z",
+    "totalSent": 1,
+    "totalMembers": 1,
+    "totalTokens": 6,
+    "blockedThisRun": 0,
+    "tokenSummary": [
+      {
+        "tag": "_iamjtrades",
+        "sent": 1,
+        "errors": 0,
+        "status": "done"
+      },
+      {
+        "tag": "briana.seals",
+        "sent": 0,
+        "errors": 0,
+        "status": "done"
+      },
+      {
+        "tag": "chrisjaques_",
+        "sent": 0,
+        "errors": 0,
+        "status": "done"
+      },
+      {
+        "tag": "luckyardy",
+        "sent": 0,
+        "errors": 0,
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": 1773333016351,
+    "startTime": "2026-03-12T16:28:46.543Z",
+    "endTime": "2026-03-12T16:30:16.351Z",
+    "totalSent": 0,
+    "totalMembers": 9368,
+    "totalTokens": 6,
+    "blockedThisRun": 69,
+    "tokenSummary": [
+      {
+        "tag": "_iamjtrades",
+        "sent": 0,
+        "errors": 12,
+        "status": "active"
+      },
+      {
+        "tag": "luckyardy",
+        "sent": 0,
+        "errors": 12,
+        "status": "active"
+      },
+      {
+        "tag": "briana.seals",
+        "sent": 0,
+        "errors": 12,
+        "status": "active"
+      },
+      {
+        "tag": "sabrina095241",
+        "sent": 0,
+        "errors": 12,
+        "status": "active"
+      },
+      {
+        "tag": "chrisjaques_",
+        "sent": 0,
+        "errors": 11,
+        "status": "active"
+      },
+      {
+        "tag": "jeffrey06701",
+        "sent": 0,
+        "errors": 10,
+        "status": "active"
+      }
+    ]
+  }
+]
