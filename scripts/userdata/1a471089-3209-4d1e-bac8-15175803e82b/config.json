@@ -1,0 +1,42 @@
+{
+  "login_delay_min": 2000,
+  "login_delay_max": 4000,
+  "dm_delay_min": 6000,
+  "dm_delay_max": 8000,
+  "per_token_limit": 0,
+  "token_cooldown_ms": 30000,
+  "dm_messages": [
+    "👾 Hey! A few of us hang out in a Discord where we do games, quizzes, and events.\nFigured you might like it too.\nhttps://discord.gg/v8ZvpchWc4",
+    "🔥 Bored? Come join the fun.\nWe host game nights 🎮, quizzes 🧠, and real-life events 🌟 with an active, friendly community.\nJump in and be part of the vibe.\nhttps://discord.gg/v8ZvpchWc4"
+  ],
+  "proxy": {
+    "enabled": true,
+    "proxies": [
+      "31.59.20.176:6754:okndozax:ei6lsutpes9j",
+      "23.95.150.145:6114:okndozax:ei6lsutpes9j",
+      "198.23.239.134:6540:okndozax:ei6lsutpes9j",
+      "45.38.107.97:6014:okndozax:ei6lsutpes9j",
+      "107.172.163.27:6543:okndozax:ei6lsutpes9j",
+      "198.105.121.200:6462:okndozax:ei6lsutpes9j",
+      "64.137.96.74:6641:okndozax:ei6lsutpes9j",
+      "216.10.27.159:6837:okndozax:ei6lsutpes9j",
+      "142.111.67.146:5611:okndozax:ei6lsutpes9j",
+      "191.96.254.138:6185:okndozax:ei6lsutpes9j"
+    ]
+  },
+  "captcha": {
+    "enabled": true,
+    "apiKey": "e1a38b051070d9951d413b074d2d11c0"
+  },
+  "scraper": {
+    "type": "opcode14",
+    "minAccountAgeMinutes": 0,
+    "filterAdmins": true,
+    "filterBots": true
+  },
+  "joiner": {
+    "autoJoin": true,
+    "inviteCode": "https://discord.gg/ptcgp",
+    "delay": 3000
+  }
+}

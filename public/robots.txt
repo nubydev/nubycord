@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /api/
+Disallow: /auth/
+Disallow: /setup
+Disallow: /admin.html
+
+Allow: /
+
+Sitemap: https://zenchord--yungapp.replit.app/sitemap.xml

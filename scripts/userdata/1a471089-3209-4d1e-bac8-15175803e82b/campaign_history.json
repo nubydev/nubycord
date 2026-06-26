@@ -1,0 +1,96 @@
+[
+  {
+    "id": 1773577610660,
+    "startTime": "2026-03-15T12:26:22.978Z",
+    "endTime": "2026-03-15T12:26:50.660Z",
+    "totalSent": 0,
+    "totalMembers": 7,
+    "totalTokens": 6,
+    "blockedThisRun": 7,
+    "tokenSummary": [
+      {
+        "tag": "_iamjtrades",
+        "sent": 0,
+        "errors": 1,
+        "status": "captcha"
+      },
+      {
+        "tag": "briana.seals",
+        "sent": 0,
+        "errors": 2,
+        "status": "done"
+      },
+      {
+        "tag": "chrisjaques_",
+        "sent": 0,
+        "errors": 2,
+        "status": "done"
+      },
+      {
+        "tag": "sabrina095241",
+        "sent": 0,
+        "errors": 2,
+        "status": "done"
+      },
+      {
+        "tag": "luckyardy",
+        "sent": 0,
+        "errors": 1,
+        "status": "done"
+      },
+      {
+        "tag": "jeffrey06701",
+        "sent": 0,
+        "errors": 0,
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": 1773577579721,
+    "startTime": "2026-03-15T12:24:13.453Z",
+    "endTime": "2026-03-15T12:26:19.721Z",
+    "totalSent": 0,
+    "totalMembers": 10,
+    "totalTokens": 6,
+    "blockedThisRun": 3,
+    "tokenSummary": [
+      {
+        "tag": "_iamjtrades",
+        "sent": 0,
+        "errors": 2,
+        "status": "captcha"
+      },
+      {
+        "tag": "briana.seals",
+        "sent": 0,
+        "errors": 1,
+        "status": "captcha"
+      },
+      {
+        "tag": "chrisjaques_",
+        "sent": 0,
+        "errors": 1,
+        "status": "captcha"
+      },
+      {
+        "tag": "luckyardy",
+        "sent": 0,
+        "errors": 2,
+        "status": "captcha"
+      },
+      {
+        "tag": "jeffrey06701",
+        "sent": 0,
+        "errors": 2,
+        "status": "captcha"
+      },
+      {
+        "tag": "sabrina095241",
+        "sent": 0,
+        "errors": 1,
+        "status": "captcha"
+      }
+    ]
+  }
+]

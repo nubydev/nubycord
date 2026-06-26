@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5865f2" />
+    <meta name="description" content="Initial admin setup for Nubycord — create your administrator account to get started." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zenchord--yungapp.replit.app/setup" />
+    <meta property="og:title" content="Nubycord — Admin Setup" />
+    <meta property="og:description" content="Initial admin setup for Nubycord — create your administrator account to get started." />
+    <meta property="og:image" content="https://zenchord--yungapp.replit.app/logo.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Nubycord — Admin Setup" />
+    <meta name="twitter:description" content="Initial admin setup for Nubycord — create your administrator account to get started." />
+    <meta name="twitter:image" content="https://zenchord--yungapp.replit.app/logo.png" />
+    <title>Nubycord — Admin Setup</title>
+    <link rel="canonical" href="https://zenchord--yungapp.replit.app/setup" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #000000; --bg2: #0f0f0f; --border: #262626;
+            --text: #ededed; --text2: #888888;
+            --accent: #5865f2; --accent-hover: #4752c4;
+            --success: #00c951; --error: #ff4444;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 48px 40px; width: 100%; max-width: 440px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.03); }
+        .logo-img { width: 72px; height: 72px; object-fit: contain; margin-bottom: 10px; border-radius: 16px; }
+        .logo { font-size: 1.5em; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.02em; }
+        .subtitle { color: var(--text2); font-size: 0.9em; margin-bottom: 8px; }
+        .badge { display: inline-block; background: rgba(88,101,242,0.15); border: 1px solid var(--accent); color: var(--accent); font-size: 0.75em; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 32px; }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        label { display: block; color: var(--text2); font-size: 0.82em; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+        input { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 0.95em; outline: none; transition: border-color 0.2s; }
+        input:focus { border-color: var(--accent); }
+        .btn { width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-family: inherit; font-size: 0.95em; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+        .btn:hover { background: var(--accent-hover); }
+        .btn:disabled { opacity: 0.5; cursor: default; }
+        .msg { margin-top: 18px; padding: 12px 16px; border-radius: 8px; font-size: 0.88em; font-weight: 500; display: none; }
+        .msg.error   { background: rgba(237,66,69,0.15); border: 1px solid var(--error); color: var(--error); display: block; }
+        .msg.success { background: rgba(87,242,135,0.12); border: 1px solid var(--success); color: var(--success); display: block; }
+        .result-box { display: none; margin-top: 28px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: left; }
+        .result-box.show { display: block; }
+        .result-label { color: var(--text2); font-size: 0.75em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+        .mutex-val { font-family: monospace; font-size: 1.05em; color: var(--success); word-break: break-all; font-weight: 600; letter-spacing: 0.04em; }
+        .copy-btn { margin-top: 12px; width: 100%; padding: 9px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text2); font-family: inherit; font-size: 0.85em; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+        .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .warn { color: var(--error); font-size: 0.8em; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="/logo.png" alt="Nubycord" class="logo-img" />
+        <div class="logo">Ⲹⲉⲛⲥⲟⅅ𝖽‡</div>
+        <div class="subtitle">by PsychAnon</div>
+        <div class="badge">First-Time Admin Setup</div>
+
+        <div id="formSection">
+            <div class="form-group">
+                <label>Admin Password</label>
+                <input type="password" id="pass" placeholder="Choose a strong password (min 8 chars)" />
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPass" placeholder="Repeat your password" />
+            </div>
+            <button class="btn" onclick="doSetup()">Create Admin Account</button>
+            <div id="msg" class="msg"></div>
+        </div>
+
+        <div id="resultBox" class="result-box">
+            <div class="result-label">Your Admin Mutex (Access Key)</div>
+            <div class="mutex-val" id="mutexDisplay"></div>
+            <button class="copy-btn" onclick="copyMutex()">Copy Mutex</button>
+            <div class="warn">Save this — it cannot be recovered. Use it to log in.</div>
+            <button class="btn" style="margin-top:20px;" onclick="window.location.href='/login.html'">Go to Login</button>
+        </div>
+    </div>
+
+    <script>
+        async function doSetup() {
+            const pass    = document.getElementById('pass').value;
+            const confirm = document.getElementById('confirmPass').value;
+            const msg     = document.getElementById('msg');
+
+            msg.className = 'msg';
+            msg.textContent = '';
+
+            if (pass.length < 8) { showMsg('Password must be at least 8 characters.', 'error'); return; }
+            if (pass !== confirm) { showMsg('Passwords do not match.', 'error'); return; }
+
+            document.querySelector('.btn').disabled = true;
+
+            try {
+                const res  = await fetch('/auth/bootstrap', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pass })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('formSection').style.display = 'none';
+                    document.getElementById('mutexDisplay').textContent = data.mutex;
+                    document.getElementById('resultBox').classList.add('show');
+                } else {
+                    showMsg(data.message || 'Something went wrong.', 'error');
+                    document.querySelector('.btn').disabled = false;
+                }
+            } catch {
+                showMsg('Network error. Try again.', 'error');
+                document.querySelector('.btn').disabled = false;
+            }
+        }
+
+        function showMsg(text, type) {
+            const msg = document.getElementById('msg');
+            msg.textContent = text;
+            msg.className = 'msg ' + type;
+        }
+
+        function copyMutex() {
+            const val = document.getElementById('mutexDisplay').textContent;
+            navigator.clipboard.writeText(val).then(() => {
+                document.querySelector('.copy-btn').textContent = 'Copied!';
+                setTimeout(() => document.querySelector('.copy-btn').textContent = 'Copy Mutex', 1500);
+            });
+        }
+    </script>
+</body>
+</html>

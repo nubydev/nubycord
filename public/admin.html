@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#5865f2" />
+        <meta name="description" content="Nubycord admin panel — manage users, generate access keys, and configure system settings." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://zenchord--yungapp.replit.app/admin.html" />
+        <meta property="og:title" content="Nubycord — Admin Panel" />
+        <meta property="og:description" content="Nubycord admin panel — manage users, generate access keys, and configure system settings." />
+        <meta property="og:image" content="https://zenchord--yungapp.replit.app/logo.png" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Nubycord — Admin Panel" />
+        <meta name="twitter:description" content="Nubycord admin panel — manage users, generate access keys, and configure system settings." />
+        <meta name="twitter:image" content="https://zenchord--yungapp.replit.app/logo.png" />
+        <title>Nubycord — Admin Panel</title>
+        <link rel="canonical" href="https://zenchord--yungapp.replit.app/admin.html" />
+        <link rel="manifest" href="/manifest.json" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            :root {
+                --bg: #000000;
+                --bg2: #0f0f0f;
+                --border: #262626;
+                --text: #ededed;
+                --text2: #888888;
+                --accent: #5865f2;
+                --success: #00c951;
+                --error: #ff4444;
+                --warn: #ffc83c;
+            }
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family: 'Inter', sans-serif;
+                padding: 30px 20px;
+                min-height: 100vh;
+            }
+            .header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 32px;
+            }
+            .header h1 {
+                font-size: 1.2em;
+                font-weight: 700;
+            }
+            .back-btn {
+                background: none;
+                border: 1px solid var(--border);
+                color: var(--text2);
+                padding: 8px 16px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.88em;
+            }
+            .back-btn:hover {
+                border-color: var(--text2);
+                color: var(--text);
+            }
+            .card {
+                background: var(--bg2);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 28px;
+                margin-bottom: 24px;
+            }
+            h2 {
+                font-size: 1em;
+                font-weight: 600;
+                margin-bottom: 18px;
+                color: var(--text);
+            }
+            .form-row {
+                display: flex;
+                gap: 12px;
+                align-items: flex-end;
+                flex-wrap: wrap;
+            }
+            input {
+                flex: 1;
+                min-width: 200px;
+                padding: 10px 14px;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                color: var(--text);
+                font-family: inherit;
+                font-size: 0.9em;
+                outline: none;
+            }
+            input:focus {
+                border-color: var(--accent);
+            }
+            .btn {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 8px;
+                font-family: inherit;
+                font-size: 0.88em;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            .btn-accent {
+                background: var(--accent);
+                color: #fff;
+            }
+            .btn-accent:hover {
+                background: #4752c4;
+            }
+            .btn-danger {
+                background: var(--error);
+                color: #fff;
+            }
+            .btn-danger:hover {
+                background: #b52b2d;
+            }
+            .btn-copy {
+                background: var(--bg);
+                border: 1px solid var(--border);
+                color: var(--text2);
+            }
+            .btn-copy:hover {
+                border-color: var(--text2);
+                color: var(--text);
+            }
+            .msg {
+                margin-top: 14px;
+                padding: 10px 14px;
+                border-radius: 8px;
+                font-size: 0.88em;
+                display: none;
+            }
+            .msg.error {
+                background: rgba(237, 66, 69, 0.15);
+                border: 1px solid var(--error);
+                color: var(--error);
+                display: block;
+            }
+            .msg.success {
+                background: rgba(87, 242, 135, 0.12);
+                border: 1px solid var(--success);
+                color: var(--success);
+                display: block;
+            }
+            .msg.info {
+                background: rgba(88, 166, 255, 0.12);
+                border: 1px solid #58a6ff;
+                color: #58a6ff;
+                display: block;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.88em;
+            }
+            th {
+                color: var(--text2);
+                font-weight: 600;
+                text-align: left;
+                padding: 8px 12px;
+                border-bottom: 1px solid var(--border);
+                font-size: 0.8em;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+            td {
+                padding: 12px;
+                border-bottom: 1px solid var(--border);
+                vertical-align: middle;
+            }
+            tr:last-child td {
+                border-bottom: none;
+            }
+            .badge {
+                display: inline-block;
+                padding: 2px 10px;
+                border-radius: 10px;
+                font-size: 0.8em;
+                font-weight: 700;
+            }
+            .badge-admin {
+                background: var(--warn);
+                color: #000;
+            }
+            .badge-user {
+                background: var(--border);
+                color: var(--text2);
+            }
+            .mutex-cell {
+                font-family: monospace;
+                color: var(--text);
+                word-break: break-all;
+            }
+            .generated-box {
+                background: var(--bg);
+                border: 1px solid var(--success);
+                border-radius: 8px;
+                padding: 14px 18px;
+                margin-top: 16px;
+                display: none;
+            }
+            .generated-mutex {
+                font-family: monospace;
+                font-size: 1.05em;
+                color: var(--success);
+                word-break: break-all;
+                letter-spacing: 0.05em;
+            }
+            .empty {
+                color: var(--text2);
+                text-align: center;
+                padding: 30px;
+                font-size: 0.9em;
+            }
+
+            /* Modal */
+            .z-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(4px);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.18s ease;
+            }
+            .z-overlay.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+            .z-modal {
+                background: #111111;
+                border: 1px solid rgba(255, 255, 255, 0.07);
+                border-radius: 14px;
+                padding: 28px 28px 22px;
+                max-width: 340px;
+                width: 90%;
+                text-align: center;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+                transform: scale(0.92) translateY(8px);
+                transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .z-overlay.active .z-modal {
+                transform: scale(1) translateY(0);
+            }
+            .z-modal-icon {
+                font-size: 2em;
+                margin-bottom: 10px;
+                line-height: 1;
+            }
+            .z-modal-title {
+                font-size: 1em;
+                font-weight: 700;
+                color: #ededed;
+                margin: 0 0 8px;
+            }
+            .z-modal-msg {
+                font-size: 0.83em;
+                color: #888888;
+                margin: 0 0 22px;
+                line-height: 1.55;
+                word-break: break-all;
+            }
+            .z-modal-actions {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+            }
+            .z-btn {
+                padding: 8px 22px;
+                border: none;
+                border-radius: 8px;
+                font-family: inherit;
+                font-size: 0.82em;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+            .z-btn-cancel {
+                background: rgba(255, 255, 255, 0.06);
+                color: #888888;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .z-btn-cancel:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: #ededed;
+            }
+            .z-btn-confirm {
+                background: #5865f2;
+                color: #fff;
+            }
+            .z-btn-confirm:hover {
+                background: #4752c4;
+            }
+            .z-btn-confirm.danger {
+                background: #ed4245;
+            }
+            .z-btn-confirm.danger:hover {
+                background: #c0383a;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Nubycord — Admin Panel</h1>
+            <div style="display: flex; gap: 10px">
+                <button class="back-btn" onclick="window.location.href='/'">
+                    ← Dashboard
+                </button>
+                <button
+                    class="btn btn-danger"
+                    style="font-size: 0.82em; padding: 8px 14px"
+                    onclick="logout()"
+                >
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Discord Webhook — Login Notifications</h2>
+            <p
+                style="
+                    color: var(--text2);
+                    font-size: 0.88em;
+                    margin-bottom: 18px;
+                "
+            >
+                Set a Discord webhook URL to receive a rich notification every
+                time a user logs in, including their display name, mutex, IP,
+                browser, and login history.
+            </p>
+            <div class="form-row">
+                <input
+                    type="url"
+                    id="webhookUrlInput"
+                    placeholder="https://discord.com/api/webhooks/..."
+                />
+                <button class="btn btn-accent" onclick="saveWebhook()">
+                    Save Webhook
+                </button>
+                <button class="btn btn-copy" onclick="testWebhook()">
+                    Test
+                </button>
+            </div>
+            <div id="webhookMsg" class="msg"></div>
+        </div>
+
+        <div class="card">
+            <h2>Generate New User Access Key</h2>
+            <p
+                style="
+                    color: var(--text2);
+                    font-size: 0.88em;
+                    margin-bottom: 18px;
+                "
+            >
+                Creates a new access key (mutex). Share it with the user — they
+                will set their own password on first login.
+            </p>
+            <button class="btn btn-accent" onclick="generateMutex()">
+                Generate Access Key
+            </button>
+            <div id="generatedBox" class="generated-box">
+                <div
+                    style="
+                        color: var(--text2);
+                        font-size: 0.82em;
+                        margin-bottom: 6px;
+                    "
+                >
+                    New Access Key — share this with the user:
+                </div>
+                <div id="generatedMutex" class="generated-mutex"></div>
+                <button
+                    class="btn btn-copy"
+                    style="
+                        margin-top: 12px;
+                        font-size: 0.8em;
+                        padding: 7px 14px;
+                    "
+                    onclick="copyMutex()"
+                >
+                    Copy
+                </button>
+            </div>
+            <div id="genMsg" class="msg"></div>
+        </div>
+
+        <div class="card">
+            <h2>All Users</h2>
+            <div id="userTable"><div class="empty">Loading...</div></div>
+        </div>
+
+        <script>
+            let lastGenerated = "";
+
+            async function loadWebhookSettings() {
+                try {
+                    const res = await fetch("/api/admin/settings");
+                    const data = await res.json();
+                    if (data.success && data.webhookUrl) {
+                        document.getElementById("webhookUrlInput").value =
+                            data.webhookUrl;
+                    }
+                } catch {}
+            }
+
+            async function saveWebhook() {
+                const url = document
+                    .getElementById("webhookUrlInput")
+                    .value.trim();
+                try {
+                    const res = await fetch("/api/admin/settings", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ webhookUrl: url }),
+                    });
+                    const data = await res.json();
+                    if (data.success)
+                        showMsg(
+                            "webhookMsg",
+                            "✓ Webhook saved successfully",
+                            "success",
+                        );
+                    else
+                        showMsg(
+                            "webhookMsg",
+                            data.message || "Failed to save",
+                            "error",
+                        );
+                } catch {
+                    showMsg("webhookMsg", "Network error", "error");
+                }
+                setTimeout(() => showMsg("webhookMsg", "", ""), 3000);
+            }
+
+            async function testWebhook() {
+                const url = document
+                    .getElementById("webhookUrlInput")
+                    .value.trim();
+                if (!url) {
+                    showMsg("webhookMsg", "Enter a webhook URL first", "error");
+                    return;
+                }
+                showMsg("webhookMsg", "Sending test notification...", "info");
+                try {
+                    const payload = {
+                        username: "Nubycord Logs",
+                        embeds: [
+                            {
+                                title: "✅ Webhook Test",
+                                color: 0x57f287,
+                                description:
+                                    "Your Nubycord login notification webhook is working correctly.",
+                                fields: [
+                                    {
+                                        name: "🕒 Tested At",
+                                        value: new Date().toUTCString(),
+                                        inline: false,
+                                    },
+                                ],
+                                footer: { text: "Nubycord Login Monitor" },
+                                timestamp: new Date().toISOString(),
+                            },
+                        ],
+                    };
+                    const res = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload),
+                    });
+                    if (res.ok || res.status === 204)
+                        showMsg(
+                            "webhookMsg",
+                            "✓ Test notification sent!",
+                            "success",
+                        );
+                    else
+                        showMsg(
+                            "webhookMsg",
+                            `Discord returned ${res.status} — check your URL`,
+                            "error",
+                        );
+                } catch {
+                    showMsg(
+                        "webhookMsg",
+                        "Failed to reach Discord — check the URL",
+                        "error",
+                    );
+                }
+                setTimeout(() => showMsg("webhookMsg", "", ""), 4000);
+            }
+
+            async function generateMutex() {
+                try {
+                    const res = await fetch("/auth/admin/generate-mutex", {
+                        method: "POST",
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        lastGenerated = data.mutex;
+                        document.getElementById("generatedMutex").textContent =
+                            data.mutex;
+                        document.getElementById("generatedBox").style.display =
+                            "block";
+                        showMsg("genMsg", "", "");
+                        loadUsers();
+                    } else {
+                        showMsg(
+                            "genMsg",
+                            data.message || "Failed to generate",
+                            "error",
+                        );
+                    }
+                } catch {
+                    showMsg("genMsg", "Network error", "error");
+                }
+            }
+
+            function copyMutex() {
+                navigator.clipboard.writeText(lastGenerated).then(() => {
+                    showMsg("genMsg", "Copied to clipboard!", "success");
+                    setTimeout(() => showMsg("genMsg", "", ""), 2000);
+                });
+            }
+
+            async function loadUsers() {
+                const container = document.getElementById("userTable");
+                try {
+                    const res = await fetch("/auth/admin/users-extended");
+                    const data = await res.json();
+                    if (!data.success || !data.users.length) {
+                        container.innerHTML =
+                            '<div class="empty">No users yet.</div>';
+                        return;
+                    }
+                    let rows = data.users
+                        .map(
+                            (u) => `
+                    <tr>
+                        <td style="color:var(--success);font-weight:600;font-size:0.9em;">${u.display_name || '<span style="color:var(--text2);font-style:italic;">Not set</span>'}</td>
+                        <td class="mutex-cell" title="${u.mutex}">${u.mutex.length > 22 ? u.mutex.slice(0, 22) + "…" : u.mutex}</td>
+                        <td><span class="badge ${u.is_admin ? "badge-admin" : "badge-user"}">${u.is_admin ? "ADMIN" : "USER"}</span></td>
+                        <td style="color:var(--text2);font-size:0.85em;">${u.password_hash ? "✓ Set" : "— Not set"}</td>
+                        <td style="color:var(--text2);font-size:0.85em;text-align:center;">${u.loginCount || 0}</td>
+                        <td style="color:var(--text2);font-size:0.82em;">${new Date(u.created_at).toLocaleString()}</td>
+                        <td>
+                            ${!u.is_admin ? `<button class="btn btn-danger" style="font-size:0.78em;padding:5px 12px;" onclick="deleteUser('${u.mutex}')">Delete</button>` : '<span style="color:var(--text2);font-size:0.8em;">—</span>'}
+                        </td>
+                    </tr>
+                `,
+                        )
+                        .join("");
+                    container.innerHTML = `
+                    <table>
+                        <thead><tr>
+                            <th>Display Name</th><th>Mutex</th><th>Role</th><th>Password</th><th>Logins</th><th>Created</th><th>Action</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                `;
+                } catch {
+                    container.innerHTML =
+                        '<div class="empty">Error loading users.</div>';
+                }
+            }
+
+            function showConfirm({
+                title = "Confirm",
+                message = "",
+                confirmText = "Confirm",
+                cancelText = "Cancel",
+                danger = false,
+                icon = "⚠️",
+            } = {}) {
+                return new Promise((resolve) => {
+                    const overlay = document.getElementById("zModal");
+                    document.getElementById("zModalIcon").textContent = icon;
+                    document.getElementById("zModalTitle").textContent = title;
+                    document.getElementById("zModalMessage").textContent =
+                        message;
+                    const confirmBtn = document.getElementById("zModalConfirm");
+                    const cancelBtn = document.getElementById("zModalCancel");
+                    confirmBtn.textContent = confirmText;
+                    cancelBtn.textContent = cancelText;
+                    cancelBtn.style.display = cancelText ? "" : "none";
+                    confirmBtn.className =
+                        "z-btn z-btn-confirm" + (danger ? " danger" : "");
+                    overlay.classList.add("active");
+                    function close(r) {
+                        overlay.classList.remove("active");
+                        confirmBtn.removeEventListener("click", onOk);
+                        cancelBtn.removeEventListener("click", onNo);
+                        overlay.removeEventListener("click", onBg);
+                        resolve(r);
+                    }
+                    function onOk() {
+                        close(true);
+                    }
+                    function onNo() {
+                        close(false);
+                    }
+                    function onBg(e) {
+                        if (e.target === overlay) close(false);
+                    }
+                    confirmBtn.addEventListener("click", onOk);
+                    cancelBtn.addEventListener("click", onNo);
+                    overlay.addEventListener("click", onBg);
+                });
+            }
+
+            async function deleteUser(mutex) {
+                const ok = await showConfirm({
+                    icon: "🗑️",
+                    title: "Delete User",
+                    message: `Remove mutex:\n${mutex}\n\nThis cannot be undone.`,
+                    confirmText: "Delete",
+                    cancelText: "Cancel",
+                    danger: true,
+                });
+                if (!ok) return;
+                try {
+                    const res = await fetch("/auth/admin/delete-user", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ mutex }),
+                    });
+                    const data = await res.json();
+                    if (data.success) loadUsers();
+                    else
+                        await showConfirm({
+                            icon: "❌",
+                            title: "Error",
+                            message: data.message || "Failed to delete",
+                            confirmText: "OK",
+                            cancelText: "",
+                            danger: false,
+                        });
+                } catch {
+                    await showConfirm({
+                        icon: "❌",
+                        title: "Error",
+                        message: "Network error",
+                        confirmText: "OK",
+                        cancelText: "",
+                        danger: false,
+                    });
+                }
+            }
+
+            function showMsg(id, text, type) {
+                const el = document.getElementById(id);
+                el.textContent = text;
+                el.className = "msg" + (type ? " " + type : "");
+                if (!text) el.style.display = "none";
+            }
+
+            async function logout() {
+                await fetch("/auth/logout", { method: "POST" });
+                window.location.href = "/login.html";
+            }
+
+            loadWebhookSettings();
+            loadUsers();
+            setInterval(loadUsers, 10000);
+        </script>
+
+        <div id="zModal" class="z-overlay">
+            <div class="z-modal">
+                <div class="z-modal-icon" id="zModalIcon"></div>
+                <h3 class="z-modal-title" id="zModalTitle"></h3>
+                <p class="z-modal-msg" id="zModalMessage"></p>
+                <div class="z-modal-actions">
+                    <button class="z-btn z-btn-cancel" id="zModalCancel">
+                        Cancel
+                    </button>
+                    <button class="z-btn z-btn-confirm" id="zModalConfirm">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

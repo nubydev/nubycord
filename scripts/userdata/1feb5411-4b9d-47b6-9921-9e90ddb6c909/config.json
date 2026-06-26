@@ -1,0 +1,27 @@
+{
+  "login_delay_min": 8000,
+  "login_delay_max": 18000,
+  "dm_delay_min": 12000,
+  "dm_delay_max": 25000,
+  "per_token_limit": 0,
+  "token_cooldown_ms": 30000,
+  "dm_messages": [],
+  "proxy": {
+    "enabled": false,
+    "proxies": [],
+    "strategy": "random"
+  },
+  "captcha": {
+    "enabled": false,
+    "apiKey": "",
+    "service": "anticaptcha"
+  },
+  "scraper": {
+    "type": "opcode14",
+    "minAccountAgeMinutes": 0,
+    "filterAdmins": true,
+    "filterBots": true
+  },
+  "ui_theme": "dark",
+  "dm_retry_count": 0
+}

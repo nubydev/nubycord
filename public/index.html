@@ -1,0 +1,1376 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#5865f2" />
+        <meta name="description" content="Nubycord — Discord automation dashboard for mass DM campaigns, member scraping, token management, proxy support, and Playwright-powered browser automation." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://zenchord--yungapp.replit.app/" />
+        <meta property="og:title" content="Nubycord by PsychAnon" />
+        <meta property="og:description" content="Nubycord — Discord automation dashboard for mass DM campaigns, member scraping, token management, proxy support, and Playwright-powered browser automation." />
+        <meta property="og:image" content="https://zenchord--yungapp.replit.app/logo.png" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Nubycord by PsychAnon" />
+        <meta name="twitter:description" content="Nubycord — Discord automation dashboard for mass DM campaigns, member scraping, token management, proxy support, and Playwright-powered browser automation." />
+        <meta name="twitter:image" content="https://zenchord--yungapp.replit.app/logo.png" />
+        <title>Nubycord by PsychAnon</title>
+        <link rel="canonical" href="https://zenchord--yungapp.replit.app/" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />      
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="styles.css" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <header class="header">
+                <div class="header-left">
+                    <button id="hamburgerBtn" class="hamburger-btn" aria-label="Open menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <img src="logo.png" alt="" style="width: 32px; height: 32px" />
+                    <h1 style="font-size: 1.2em">Ⲛⳙⲃⲩⲥⲟⲅ𝖽‡</h1>
+                </div>
+                <div class="header-right">
+                    <button id="themeToggleBtn" class="icon-btn" title="Toggle light/dark mode">
+                        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                    </button>
+                    <button id="logoutBtn" class="logout-btn" title="Logout">Logout</button>
+                </div>
+            </header>
+
+            <div id="drawerOverlay" class="drawer-overlay"></div>
+
+            <div class="tabs">
+                <div class="drawer-header">
+                    <span class="drawer-app-name">Ⲛⳙⲃⲩⲥⲟⲅ𝖽‡</span>
+                </div>
+                <button class="tab-btn active" data-tab="overview">σνєяνιєω</button>
+                <button class="tab-btn" data-tab="scraper">ѕ¢яαρєя</button>
+                <button class="tab-btn" data-tab="tokens">тσкєηѕ</button>
+                <button class="tab-btn" data-tab="members">мємвєяѕ</button>
+                <button class="tab-btn" data-tab="config">¢σηƒιg</button>
+                <button class="tab-btn" data-tab="advanced">α∂ναη¢є∂</button>
+                <button class="tab-btn" data-tab="history">нιѕтσяу</button>
+                <button class="tab-btn" data-tab="logs">ℓσgѕ</button>
+                <button class="tab-btn" data-tab="panel" id="panelTabBtn" style="display:none;">ραηєℓ</button>
+                <div class="drawer-footer">
+                    <span class="drawer-version version-green">v2.2.1</span>
+                </div>
+            </div>
+
+            <div class="content">
+
+                <!-- ══ Overview Tab ══ -->
+                <div id="overview" class="tab-content active">
+
+                    <div class="card">
+                        <h2>Campaign Status</h2>
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <span class="label">Active Clients</span>
+                                <span class="value" id="activeClients">0</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="label">Total Tokens</span>
+                                <span class="value" id="totalTokens">0</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="label">Total Members</span>
+                                <span class="value" id="totalMembers">0</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="label">Messages Remaining</span>
+                                <span class="value" id="messagesRemaining">0</span>
+                            </div>
+                            <div class="status-item status-item--sent">
+                                <span class="label">Successfully Sent</span>
+                                <span class="value" id="messagesSent">0</span>
+                            </div>
+                            <div class="status-item status-item--blocked">
+                                <span class="label">Blocked Members</span>
+                                <span class="value" id="blockedCount">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Progress bar -->
+                        <div class="progress-wrap" id="progressWrap" style="display:none;">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" id="progressFill"></div>
+                            </div>
+                            <span class="progress-label" id="progressLabel">0%</span>
+                        </div>
+
+                        <!-- Campaign timer -->
+                        <div id="campaignTimerWrap" style="display:none;margin-top:14px;padding:8px 14px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.87em;color:var(--text-secondary);align-items:center;gap:8px;flex-wrap:wrap;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            Elapsed: <strong id="campaignTimer" style="color:var(--text-primary);font-family:monospace;">0:00:00</strong>
+                            <span style="color:var(--border);">·</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            <span id="sendRateEl" style="color:var(--text-primary);font-weight:600;">—</span>
+                            <span style="color:var(--border);">·</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12"/><line x1="15" y1="15" x2="12" y2="12"/></svg>
+                            ETA: <strong id="campaignEtaEl" style="color:var(--text-primary);font-family:monospace;">—</strong>
+                        </div>
+
+                        <!-- Scheduled badge -->
+                        <div id="scheduledBadge" class="scheduled-badge" style="display:none;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            Campaign scheduled for <span id="scheduledTime"></span>
+                        </div>
+
+                        <!-- Paused badge -->
+                        <div id="pausedBadge" class="paused-badge" style="display:none;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                            Campaign is paused
+                        </div>
+                    </div>
+
+                    <!-- ══ Checkpoint Resume Banner ══ -->
+                    <div id="checkpointBanner" class="checkpoint-banner" style="display:none;">
+                        <div class="checkpoint-banner-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+                        </div>
+                        <div class="checkpoint-banner-body">
+                            <div class="checkpoint-banner-title">Campaign checkpoint available</div>
+                            <div class="checkpoint-banner-meta" id="checkpointMeta"></div>
+                        </div>
+                        <div class="checkpoint-banner-actions">
+                            <button id="checkpointResumeBtn" class="btn btn-success checkpoint-resume-btn">Resume</button>
+                            <button id="checkpointDiscardBtn" class="checkpoint-discard-btn" title="Discard checkpoint">✕</button>
+                        </div>
+                    </div>
+
+                    <!-- ══ Analytics Card ══ -->
+                    <div class="card" id="analyticsCard" style="display:none;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                            <h2 style="margin:0;">Campaign Analytics</h2>
+                            <div class="analytics-totals-row" id="analyticsTotalsRow"></div>
+                        </div>
+                        <div class="analytics-layout">
+                            <div class="analytics-chart-wrap">
+                                <p style="font-size:0.75em;color:var(--text-secondary);text-align:center;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">DMs per Minute</p>
+                                <canvas id="analyticsTimeline" height="140"></canvas>
+                            </div>
+                            <div class="analytics-chart-wrap">
+                                <p style="font-size:0.75em;color:var(--text-secondary);text-align:center;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Outcome Breakdown</p>
+                                <canvas id="analyticsDonut" height="140"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Campaign Controls</h2>
+                        <div style="margin-bottom:10px;">
+                            <input id="campaignLabelInput" type="text" class="campaign-label-input" placeholder="Campaign label (optional)" maxlength="60" autocomplete="off" />
+                        </div>
+                        <div class="button-group">
+                            <button id="startBtn" class="btn btn-success">start campaign</button>
+                            <button id="stopBtn" class="btn btn-danger">stop campaign</button>
+                            <button id="pauseBtn" class="btn btn-warning">pause</button>
+                            <button id="refreshBtn" class="btn btn-gold"><svg class="btn-refresh-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                            <button id="clearBlockedBtn" class="btn btn-secondary" title="Clear blocked list"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ed4245" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            <button id="exportBlockedBtn" class="btn btn-secondary"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ffc83c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> blocked</button>
+                        </div>
+
+                        <div class="schedule-row">
+                            <label class="schedule-label">Schedule Start</label>
+                            <div class="schedule-controls">
+                                <select id="scheduleDelay" class="form-input schedule-select">
+                                    <option value="">— pick delay —</option>
+                                    <option value="300000">In 5 minutes</option>
+                                    <option value="900000">In 15 minutes</option>
+                                    <option value="1800000">In 30 minutes</option>
+                                    <option value="3600000">In 1 hour</option>
+                                    <option value="7200000">In 2 hours</option>
+                                    <option value="21600000">In 6 hours</option>
+                                    <option value="43200000">In 12 hours</option>
+                                </select>
+                                <div class="schedule-btn-row">
+                                    <button id="scheduleBtn" class="btn btn-warning">Schedule</button>
+                                    <button id="cancelScheduleBtn" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Server ID</h2>
+                        <div class="form-group">
+                            <input type="text" id="serverId" placeholder="Enter Discord Server ID" class="form-input" />
+                            <button id="saveServerIdBtn" class="btn btn-warning">Save Server ID</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══ Scraper Tab ══ -->
+                <div id="scraper" class="tab-content">
+                    <div class="card">
+                        <h2>Scraper Type Selection</h2>
+                        <p class="info-text">Choose your preferred scraping method</p>
+                        <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+                            <button class="scraper-type-btn active" data-type="opcode14">Opcode 14 (Server Members)</button>
+                            <button class="scraper-type-btn" data-type="reaction">Reaction Scraper</button>
+                            <button class="scraper-type-btn" data-type="opcode8">Opcode 8 (Bruteforce)</button>
+                            <button class="scraper-type-btn" data-type="keyword">Keywords</button>
+                        </div>
+                    </div>
+
+                    <!-- Scraper Presets -->
+                    <div class="card">
+                        <h2>Scraper Presets</h2>
+                        <p class="info-text">Save and reload scraper configurations instantly.</p>
+                        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+                            <select id="scraperPresetSelect" class="form-input" style="flex:1;min-width:160px;">
+                                <option value="">— load a preset —</option>
+                            </select>
+                            <div style="display:flex;gap:8px;flex-shrink:0;">
+                                <button id="loadPresetBtn" class="btn btn-warning" style="white-space:nowrap;"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Load</button>
+                                <button id="deletePresetBtn" class="btn btn-danger" style="white-space:nowrap;" title="Delete preset"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                            <input type="text" id="presetNameInput" class="form-input" placeholder="Preset name..." style="flex:1;min-width:160px;" />
+                            <button id="savePresetBtn" class="btn btn-success" style="white-space:nowrap;">Save Current as Preset</button>
+                        </div>
+                    </div>
+
+                    <!-- Opcode 14 -->
+                    <div id="opcode14-scraper" class="card scraper-section">
+                        <h2>Opcode 14: Server Member Scraper</h2>
+                        <p class="info-text">Scrapes all members from a server with advanced filtering options</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Token (for scraping)</label>
+                            <input type="password" id="scraperToken" placeholder="Enter a user token for scraping" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Server ID</label>
+                            <input type="text" id="op14-serverId" placeholder="Leave blank to use the server ID above" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Active Within Time Period - Leave blank for all users</label>
+                            <select id="op14TimePeriod" class="form-input">
+                                <option value="">All users</option>
+                                <option value="120">Last 2 hours</option>
+                                <option value="600">Last 10 hours</option>
+                                <option value="1440">Last 1 day</option>
+                                <option value="4320">Last 3 days</option>
+                                <option value="10080">Last 7 days</option>
+                                <option value="14400">Last 10 days</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="scrapeOp14Btn" class="btn btn-success">Start Scraping</button>
+                            <button id="downloadBtn" class="btn btn-warning" disabled><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> results</button>
+                        </div>
+                        <div id="op14LiveProgress" class="scraper-live-progress" style="display:none;"></div>
+                        <div id="scraperStatus" style="margin-top:20px;display:none;">
+                            <p style="color:var(--success);font-weight:600;" id="scraperMessage"></p>
+                        </div>
+                    </div>
+
+                    <!-- Reaction Scraper -->
+                    <div id="reaction-scraper" class="card scraper-section" style="display:none;">
+                        <h2>Reaction Scraper</h2>
+                        <p class="info-text">Scrapes users who reacted to a specific message</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Token</label>
+                            <input type="password" id="reactionToken" placeholder="Enter your token" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Server ID</label>
+                            <input type="text" id="reaction-serverId" placeholder="Discord Server ID" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Channel ID</label>
+                            <input type="text" id="channelId" placeholder="Discord Channel ID" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Message ID</label>
+                            <input type="text" id="messageId" placeholder="Discord Message ID" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Reaction Emoji</label>
+                            <input type="text" id="reactionEmoji" placeholder="e.g. 👍 or custom_emoji_name" class="form-input" />
+                        </div>
+                        <div class="button-group">
+                            <button id="scrapeReactionBtn" class="btn btn-success">Scrape Reactions</button>
+                            <button id="downloadReactionBtn" class="btn btn-warning" disabled><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> results</button>
+                        </div>
+                        <div id="reactionLiveProgress" class="scraper-live-progress" style="display:none;"></div>
+                        <div id="reactionStatus" style="margin-top:20px;display:none;">
+                            <p style="color:var(--success);font-weight:600;" id="reactionMessage"></p>
+                        </div>
+                    </div>
+
+                    <!-- Opcode 8 -->
+                    <div id="opcode8-scraper" class="card scraper-section" style="display:none;">
+                        <h2>Opcode 8: Bruteforce User Scraper</h2>
+                        <p class="info-text">Bruteforces Discord user IDs in a given range to find valid accounts</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Token</label>
+                            <input type="password" id="bruteforceToken" placeholder="Enter your token" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">ID Range Start</label>
+                            <input type="text" id="idStart" placeholder="100000000000000000" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">ID Range End</label>
+                            <input type="text" id="idEnd" placeholder="900000000000000000" class="form-input" />
+                        </div>
+                        <div class="button-group">
+                            <button id="scrapeBruteforceBtn" class="btn btn-success">Start Bruteforce</button>
+                            <button id="downloadBruteforceBtn" class="btn btn-warning" disabled><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> results</button>
+                        </div>
+                        <div id="op8LiveProgress" class="scraper-live-progress" style="display:none;"></div>
+                        <div id="bruteforceStatus" style="margin-top:20px;display:none;">
+                            <p style="color:var(--success);font-weight:600;" id="bruteforceMessage"></p>
+                        </div>
+                    </div>
+
+                    <!-- Keyword Scraper -->
+                    <div id="keyword-scraper" class="card scraper-section" style="display:none;">
+                        <h2>Keyword Scraper</h2>
+                        <p class="info-text">Finds users who mentioned specific keywords in a server</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Token</label>
+                            <input type="password" id="keywordToken" placeholder="Enter your token" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Server ID</label>
+                            <input type="text" id="keyword-serverId" placeholder="Leave blank to use server ID above" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Keywords (comma-separated)</label>
+                            <input type="text" id="keywordsList" placeholder="buy, crypto, nft, invest" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Time Period</label>
+                            <select id="keywordTimePeriod" class="form-input">
+                                <option value="">All time</option>
+                                <option value="120">Last 2 hours</option>
+                                <option value="1440">Last 1 day</option>
+                                <option value="10080">Last 7 days</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="scrapeKeywordBtn" class="btn btn-success">Start Keyword Scrape</button>
+                            <button id="downloadKeywordBtn" class="btn btn-warning" disabled><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> results</button>
+                        </div>
+                        <div id="keywordLiveProgress" class="scraper-live-progress" style="display:none;"></div>
+                        <div id="keywordStatus" style="margin-top:20px;display:none;">
+                            <p style="color:var(--success);font-weight:600;" id="keywordMessage"></p>
+                        </div>
+                    </div>
+
+                    <!-- Scraper Results Merger -->
+                    <div class="card">
+                        <h2>Scraper Results Merger</h2>
+                        <p class="info-text">Combine outputs from all scraper types into one deduplicated member list and load into the campaign instantly.</p>
+                        <div id="mergeScraperStats" style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;padding:12px 14px;background:var(--bg-secondary);border-radius:8px;font-size:0.82em;color:var(--text-secondary);"></div>
+                        <div class="button-group">
+                            <button id="mergeAllScrapersBtn" class="btn btn-success"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg> Merge All &amp; Load</button>
+                            <button id="downloadMergedBtn" class="btn btn-warning" disabled><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+                        </div>
+                        <div id="mergeScraperStatus" style="display:none;margin-top:12px;font-size:0.85em;font-weight:600;padding:10px 14px;border-radius:8px;background:var(--bg-secondary);"></div>
+                    </div>
+                </div>
+
+                <!-- ══ Tokens Tab ══ -->
+                <div id="tokens" class="tab-content">
+
+                    <div class="card">
+                        <h2>Manage Discord Tokens</h2>
+                        <p class="info-text">Add your Discord user tokens (one per line). Supports: token format or email:pass:token format</p>
+                        <div class="form-group">
+                            <textarea id="tokensInput" class="form-textarea" placeholder="Paste tokens here, one per line..."></textarea>
+                            <div class="button-group row-3">
+                                <button id="saveTokensBtn" class="btn btn-success"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save</button>
+                                <button id="validateTokensBtn" class="btn btn-warning"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Validate</button>
+                                <button id="copyTokensBtn" class="btn btn-secondary btn-icon-compact" title="Copy all tokens to clipboard"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                                <button id="clearTokensBtn" class="btn btn-danger btn-icon-compact" title="Clear all tokens"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                            <div id="tokensDupBar" class="members-stats-bar" style="display:none;">
+                                <span id="tokensTotalStat"></span>
+                                <span id="tokensDupStat"></span>
+                                <span id="tokensFmtStat"></span>
+                                <button id="removeTokenDupsBtn" class="pill-btn-dedup" style="display:none;">Remove duplicates</button>
+                                <button id="normalizeTokensBtn" class="pill-btn-normalize" style="display:none;">Strip prefixes</button>
+                            </div>
+                            <span id="tokenSaveFeedback" class="token-save-feedback" style="display:none;"></span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Token Status</h2>
+                        <p class="info-text">
+                            <span style="background-color:#57f287;color:#000;padding:4px 12px;border-radius:12px;font-weight:600;font-size:0.85em;display:inline-block;">@valid_user</span>
+                            <span style="background-color:#ed4245;color:#fff;padding:4px 12px;border-radius:12px;font-weight:600;font-size:0.85em;display:inline-block;margin-left:6px;">@invalid_user</span>
+                        </p>
+                        <div id="tokenStatusList" style="max-height:400px;overflow-y:auto;padding:15px;background:var(--bg-secondary);border-radius:8px;">
+                            <p style="color:var(--text-secondary);text-align:center;padding:20px;">Click "Validate Tokens" to check status.</p>
+                        </div>
+                    </div>
+
+                    <div class="card" id="liveTokenStatsCard" style="display:none;">
+                        <div class="lts-card-header">
+                            <h2 style="margin:0;">Live Token Stats <span style="font-size:0.7em;color:var(--text-secondary);font-weight:400;">(current campaign)</span></h2>
+                            <div class="lts-search-wrap">
+                                <svg class="lts-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" id="ltsFilterInput" class="lts-search-input" placeholder="Filter tokens…" autocomplete="off" spellcheck="false" />
+                                <button id="ltsFilterClear" class="lts-search-clear" title="Clear filter" style="display:none;">✕</button>
+                            </div>
+                        </div>
+                        <div id="liveTokenStatsList"></div>
+                    </div>
+
+                    <!-- ══ Token Profile Manager ══ -->
+                    <div class="card">
+                        <h2>Token Profile Manager</h2>
+                        <p class="info-text">Fetch and update a token's display name, avatar, and bio via the Discord API.</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Token</label>
+                            <input type="password" id="profileToken" class="form-input" placeholder="Enter token to fetch/update" />
+                        </div>
+                        <div class="button-group" style="margin-bottom:16px;">
+                            <button id="fetchProfileBtn" class="btn btn-secondary">Fetch Profile</button>
+                        </div>
+                        <div id="profileFetchResult" style="display:none;margin-bottom:16px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;"></div>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label>New Display Name</label>
+                                <input type="text" id="profileDisplayName" class="form-input" placeholder="Leave blank to skip" />
+                            </div>
+                            <div class="config-item">
+                                <label>Avatar Image URL</label>
+                                <input type="text" id="profileAvatarUrl" class="form-input" placeholder="https://i.imgur.com/..." />
+                            </div>
+                        </div>
+                        <div class="button-group" style="margin-top:12px;">
+                            <button id="updateProfileBtn" class="btn btn-success">Apply Changes</button>
+                        </div>
+                        <div id="profileUpdateResult" style="display:none;margin-top:12px;font-size:0.88em;font-weight:600;"></div>
+                    </div>
+
+                    <!-- Token Health Registry -->
+                    <div class="card">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                            <h2 style="margin:0;">Token Health Registry</h2>
+                            <div style="display:flex;gap:8px;">
+                                <button id="refreshTokenHealthBtn" class="btn btn-secondary" style="padding:5px 10px;font-size:0.8em;"><svg class="btn-refresh-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                                <button id="clearTokenHealthBtn" class="btn btn-danger" style="padding:5px 12px;font-size:0.8em;" title="Clear token health registry"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                        </div>
+                        <p class="info-text">Tokens retired due to consecutive errors are logged here across campaigns.</p>
+                        <div id="tokenHealthList"><p style="color:var(--text-secondary);font-size:0.85em;text-align:center;padding:16px;">No unhealthy tokens recorded.</p></div>
+                    </div>
+                </div>
+
+                <!-- ══ Members Tab ══ -->
+                <div id="members" class="tab-content">
+                    <div class="card">
+                        <h2>Manage Target Members <span id="membersCountBadge" class="count-badge" style="display:none;"></span></h2>
+                        <p class="info-text">Add Discord user IDs to target (one per line). IDs only - no other formats.</p>
+                        <div class="form-group">
+                            <textarea id="membersInput" class="form-textarea" placeholder="Paste user IDs here, one per line..."></textarea>
+                            <div class="button-group row-3">
+                                <button id="saveMembersBtn" class="btn btn-success"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save</button>
+                                <button id="exportMembersCSVBtn" class="btn btn-warning"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> csv</button>
+                                <button id="copyMembersBtn" class="btn btn-secondary btn-icon-compact" title="Copy all members to clipboard"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                                <button id="clearMembersBtn" class="btn btn-danger btn-icon-compact" title="Clear all members"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                            <div id="membersDupBar" class="members-stats-bar" style="display:none;">
+                                <span id="membersTotalStat"></span>
+                                <span id="membersDupStat"></span>
+                                <button id="removeDupsBtn" class="pill-btn-dedup" style="display:none;">Remove duplicates</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ Member Intelligence ══ -->
+                    <div class="card">
+                        <h2>Member Intelligence</h2>
+                        <p class="info-text">Analyze the age and quality of your loaded member list using Discord Snowflake IDs. Filter out low-quality (new/bot) accounts before sending.</p>
+                        <div class="button-group" style="margin-bottom:16px;">
+                            <button id="analyzeMembersBtn" class="btn btn-secondary">Analyze Members</button>
+                            <button id="scoreMembersBtn" class="btn btn-warning">Score &amp; Filter</button>
+                        </div>
+                        <div class="form-group" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                            <label style="color:var(--text-secondary);font-weight:600;font-size:0.88em;white-space:nowrap;">Min Score (0–100):</label>
+                            <input type="number" id="scoreThreshold" class="form-input" min="0" max="100" value="0" placeholder="0 = keep all" style="max-width:100px;" />
+                            <span style="font-size:0.8em;color:var(--text-secondary);">0=all  35+=30 days  60+=90 days  80+=1 year  100=veteran</span>
+                        </div>
+                        <div id="memberIntelResult" style="display:none;margin-top:14px;"></div>
+                    </div>
+                </div>
+
+                <!-- ══ Config Tab ══ -->
+                <div id="config" class="tab-content">
+                    <div class="card">
+                        <h2>Timing Configuration</h2>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label>login delay min (ms)</label>
+                                <input type="number" id="loginDelayMin" class="form-input" min="100" />
+                            </div>
+                            <div class="config-item">
+                                <label>login delay max (ms)</label>
+                                <input type="number" id="loginDelayMax" class="form-input" min="100" />
+                            </div>
+                            <div class="config-item">
+                                <label>dm delay min (ms)</label>
+                                <input type="number" id="dmDelayMin" class="form-input" min="100" />
+                            </div>
+                            <div class="config-item">
+                                <label>dm delay max (ms)</label>
+                                <input type="number" id="dmDelayMax" class="form-input" min="100" />
+                            </div>
+                            <div class="config-item">
+                                <label>per-token dm limit (0 = unlimited)</label>
+                                <input type="number" id="perTokenLimit" class="form-input" min="0" placeholder="0" />
+                            </div>
+                            <div class="config-item">
+                                <label>token recovery (ms) — after limit</label>
+                                <input type="number" id="tokenCooldownMs" class="form-input" min="0" placeholder="30000" />
+                            </div>
+                            <div class="config-item">
+                                <label>per-token rate limit (DMs/min, 0 = off)</label>
+                                <input type="number" id="perTokenRateLimit" class="form-input" min="0" placeholder="0" />
+                            </div>
+                            <div class="config-item">
+                                <label>dm retry count (0 = no retry)</label>
+                                <input type="number" id="dmRetryCount" class="form-input" min="0" max="5" placeholder="0" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>DM Messages</h2>
+                        <p class="info-text">Define the messages to send (one will be randomly selected for each DM)</p>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center;">
+                            <span style="font-size:0.78em;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Variables:</span>
+                            <code class="var-chip" title="Replaced with the target's Discord username" onclick="insertVar(this)"><b>{username}</b></code>
+                            <code class="var-chip" title="Current send count (1, 2, 3…)" onclick="insertVar(this)"><b>{index}</b></code>
+                            <code class="var-chip" title="Randomly picks one option — e.g. {random:Hey|Hi|Hello}" onclick="insertVar(this)"><b>{random:A|B|C}</b></code>
+                        </div>
+                        <div id="messagesContainer"></div>
+                        <div class="dm-msg-btn-row">
+                            <button id="addMessageBtn" class="btn btn-warning"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add</button>
+                            <button id="saveConfigBtn" class="btn btn-success"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save</button>
+                        </div>
+                    </div>
+
+                    <!-- ══ Auto-Reply ══ -->
+                    <div class="card">
+                        <h2>Auto-Reply</h2>
+                        <p class="info-text">Automatically send one reply when a member responds to your DM. Fires once per member per campaign. Supports <code style="background:var(--surface);padding:1px 5px;border-radius:4px;font-size:0.9em;">{username}</code> and <code style="background:var(--surface);padding:1px 5px;border-radius:4px;font-size:0.9em;">{random:A|B}</code>.</p>
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--text-secondary);font-size:0.88em;font-weight:600;">
+                                <input type="checkbox" id="autoReplyEnabled" /> Enable Auto-Reply
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:8px;font-weight:600;">Reply Template</label>
+                            <textarea id="autoReplyMessage" class="form-textarea" style="min-height:100px;" placeholder="Thanks for reaching out, {username}! Here's more info..."></textarea>
+                        </div>
+                        <div class="form-group" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
+                            <label style="color:var(--text-secondary);font-weight:600;font-size:0.88em;white-space:nowrap;">Delay before reply (ms):</label>
+                            <input type="number" id="autoReplyDelay" class="form-input" min="0" step="500" value="3000" style="max-width:130px;" />
+                        </div>
+                        <button id="saveAutoReplyBtn" class="btn btn-success"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Auto-Reply</button>
+                        <div id="autoReplyStatus" style="display:none;margin-top:10px;font-size:0.88em;font-weight:600;"></div>
+                    </div>
+
+                    <!-- ══ Drip Sequences ══ -->
+                    <div class="card">
+                        <h2>Drip Sequences</h2>
+                        <p class="info-text">Build automated reply sequences. When a DM recipient replies during an active campaign, Nubycord sends the next step in the sequence automatically.</p>
+
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:8px;font-weight:600;">Active Sequence (attach to campaigns)</label>
+                            <select id="activeSequenceSelect" class="form-input">
+                                <option value="">— None (no drip) —</option>
+                            </select>
+                        </div>
+                        <div class="button-group" style="margin-bottom:20px;">
+                            <button id="saveActiveSeqBtn" class="btn btn-success">Save Active Sequence</button>
+                        </div>
+
+                        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;" />
+
+                        <h3 style="font-size:0.95em;color:var(--text-secondary);margin-bottom:12px;font-weight:600;">Create / Edit Sequence</h3>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:8px;font-weight:600;">Sequence Name</label>
+                            <input type="text" id="seqName" class="form-input" placeholder="e.g. Standard Follow-Up" />
+                        </div>
+                        <div id="seqSteps" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+                        <button id="addSeqStepBtn" class="btn btn-secondary" style="margin-bottom:14px;">+ Add Step</button>
+                        <div class="button-group">
+                            <button id="saveSeqBtn" class="btn btn-success">Save Sequence</button>
+                            <button id="newSeqBtn" class="btn btn-secondary">New Sequence</button>
+                        </div>
+
+                        <div id="seqList" style="margin-top:18px;display:flex;flex-direction:column;gap:8px;"></div>
+                        <div id="seqWatcherStatus" style="margin-top:12px;font-size:0.82em;color:var(--text-secondary);"></div>
+                    </div>
+
+                    <!-- Campaign Automation -->
+                    <div class="card">
+                        <h2>Campaign Automation</h2>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label>Token Concurrency <span class="config-hint">(0 = unlimited)</span></label>
+                                <input type="number" id="tokenConcurrency" class="form-input" min="0" placeholder="0" />
+                            </div>
+                            <div class="config-item">
+                                <label>Campaign Min Score <span class="config-hint">(0 = no filter)</span></label>
+                                <input type="number" id="campaignMinScore" class="form-input" min="0" max="100" placeholder="0" />
+                            </div>
+                            <div class="config-item">
+                                <label>Failed Re-Queue Delay (ms)</label>
+                                <input type="number" id="failedRequeueDelay" class="form-input" min="0" placeholder="30000" />
+                            </div>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:10px;margin:14px 0;">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="failedRequeueEnabled" /> Enable Failed DM Re-Queue
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="tokenWarmingEnabled" /> Enable Token Warming Mode <em style="font-size:0.82em;">(progressively increases daily limit over 7 days)</em>
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="errorSpikeEnabled" /> Enable Auto-Pause on Error Spike
+                            </label>
+                            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-left:22px;">
+                                <div class="config-item" style="min-width:120px;">
+                                    <label>Error Threshold %</label>
+                                    <input type="number" id="errorSpikeThreshold" class="form-input" min="1" max="100" placeholder="50" />
+                                </div>
+                                <div class="config-item" style="min-width:120px;">
+                                    <label>Window (events)</label>
+                                    <input type="number" id="errorSpikeWindow" class="form-input" min="5" max="100" placeholder="20" />
+                                </div>
+                            </div>
+                        </div>
+                        <button id="saveAutomationBtn" class="btn btn-success">Save Automation Settings</button>
+                    </div>
+
+                    <!-- Token Warm-Up Scheduler -->
+                    <div class="card">
+                        <h2>Token Warm-Up Scheduler</h2>
+                        <p class="info-text">Set a daily DM cap for each day of the warm-up period. The limit escalates automatically — tokens graduate to unrestricted sending after Day 7. Requires Token Warming Mode enabled above.</p>
+                        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px;" id="warmingScheduleGrid">
+                            <div class="config-item" style="min-width:0;">
+                                <label style="font-size:0.78em;white-space:nowrap;">Day 1</label>
+                                <input type="number" id="warmingDay1" class="form-input" min="1" placeholder="5" />
+                            </div>
+                            <div class="config-item" style="min-width:0;">
+                                <label style="font-size:0.78em;white-space:nowrap;">Day 2</label>
+                                <input type="number" id="warmingDay2" class="form-input" min="1" placeholder="10" />
+                            </div>
+                            <div class="config-item" style="min-width:0;">
+                                <label style="font-size:0.78em;white-space:nowrap;">Day 3</label>
+                                <input type="number" id="warmingDay3" class="form-input" min="1" placeholder="20" />
+                            </div>
+                            <div class="config-item" style="min-width:0;">
+                                <label style="font-size:0.78em;white-space:nowrap;">Day 4</label>
+                                <input type="number" id="warmingDay4" class="form-input" min="1" placeholder="35" />
+                            </div>
+                            <div class="config-item" style="min-width:0;">
+                                <label style="font-size:0.78em;white-space:nowrap;">Day 5</label>
+                                <input type="number" id="warmingDay5" class="form-input" min="1" placeholder="50" />
+                            </div>
+                            <div class="config-item" style="min-width:0;">
+                                <label style="font-size:0.78em;white-space:nowrap;">Day 6</label>
+                                <input type="number" id="warmingDay6" class="form-input" min="1" placeholder="75" />
+                            </div>
+                            <div class="config-item" style="min-width:0;">
+                                <label style="font-size:0.78em;white-space:nowrap;">Day 7</label>
+                                <input type="number" id="warmingDay7" class="form-input" min="1" placeholder="100" />
+                            </div>
+                        </div>
+                        <div class="button-group" style="margin-bottom:16px;">
+                            <button id="saveWarmingScheduleBtn" class="btn btn-success">Save Schedule</button>
+                            <button id="resetWarmingScheduleBtn" class="btn btn-secondary">Reset to Defaults</button>
+                        </div>
+
+                        <!-- Warm-Up Status Table -->
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h3 style="margin:0;font-size:0.95em;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Token Progress</h3>
+                            <div style="display:flex;gap:8px;">
+                                <button id="refreshWarmingBtn" class="btn btn-secondary" style="padding:5px 10px;font-size:0.8em;" title="Refresh warming status"><svg class="btn-refresh-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                                <button id="clearWarmingRegistryBtn" class="btn btn-danger" style="padding:5px 12px;font-size:0.8em;" title="Clear warming registry"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                        </div>
+                        <div id="warmingStatusTable">
+                            <p style="color:var(--text-secondary);font-size:0.85em;text-align:center;padding:16px;">No warming data yet — run a campaign with Token Warming Mode enabled to see progress here.</p>
+                        </div>
+                    </div>
+
+                    <!-- Anti-Detection Timing Profiles -->
+                    <div class="card">
+                        <h2>Anti-Detection Timing Profiles</h2>
+                        <p class="info-text">Apply a named preset to instantly tune login and DM delays for different risk levels.</p>
+                        <div class="timing-profile-btns">
+                            <button onclick="applyTimingProfile('stealth')"    class="btn btn-secondary"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Stealth</button>
+                            <button onclick="applyTimingProfile('balanced')"   class="btn btn-secondary"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#57f287" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> Balanced</button>
+                            <button onclick="applyTimingProfile('fast')"       class="btn btn-secondary"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffc83c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Fast</button>
+                            <button onclick="applyTimingProfile('aggressive')" class="btn btn-secondary"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ed4245" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Aggressive</button>
+                        </div>
+                        <div id="timingProfileResult" style="display:none;font-size:0.88em;font-weight:600;"></div>
+                    </div>
+
+                    <!-- ══ Elite Automation ══ -->
+                    <div class="card">
+                        <h2>Elite Automation</h2>
+                        <p class="info-text">Advanced features for high-trust campaigns. All off by default — enable only what you need.</p>
+
+                        <h3 style="font-size:0.88em;color:var(--text-secondary);margin:0 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Token Tier System</h3>
+                        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="tokenTierEnabled" /> Prioritise T1 Elite tokens first in campaign queue
+                            </label>
+                            <p style="margin:4px 0 0 22px;font-size:0.8em;color:var(--text-secondary);">T1 = 30+ days + warmed. Manage tiers in the Advanced tab.</p>
+                        </div>
+
+                        <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;" />
+
+                        <h3 style="font-size:0.88em;color:var(--text-secondary);margin:0 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Friend Request → DM Flow</h3>
+                        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="friendRequestMode" /> Send a friend request first, then DM after a delay
+                            </label>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;margin-left:22px;">
+                            <label style="color:var(--text-secondary);font-weight:600;font-size:0.88em;white-space:nowrap;">DM delay after FR accepted (ms):</label>
+                            <input type="number" id="friendRequestDmDelay" class="form-input" min="10000" step="5000" placeholder="90000" style="max-width:140px;" />
+                        </div>
+
+                        <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;" />
+
+                        <h3 style="font-size:0.88em;color:var(--text-secondary);margin:0 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Message Paraphrasing (AI Variation)</h3>
+                        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="paraphraseEnabled" /> Rephrase each DM via LLM before sending (same meaning, different wording)
+                            </label>
+                        </div>
+                        <div class="config-grid" style="margin-left:22px;margin-bottom:16px;">
+                            <div class="config-item">
+                                <label>API Key <span class="config-hint">(OpenAI or compatible)</span></label>
+                                <input type="password" id="paraphraseApiKey" class="form-input" placeholder="sk-..." autocomplete="off" />
+                            </div>
+                            <div class="config-item">
+                                <label>Model <span class="config-hint">(default: gpt-4o-mini)</span></label>
+                                <input type="text" id="paraphraseModel" class="form-input" placeholder="gpt-4o-mini" />
+                            </div>
+                            <div class="config-item" style="grid-column:1 / -1;">
+                                <label>API Base URL <span class="config-hint">(leave blank for OpenAI)</span></label>
+                                <input type="text" id="paraphraseBaseUrl" class="form-input" placeholder="https://api.openai.com/v1" />
+                            </div>
+                        </div>
+
+                        <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;" />
+
+                        <h3 style="font-size:0.88em;color:var(--text-secondary);margin:0 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Distributed Node Mode</h3>
+                        <p class="info-text" style="margin-bottom:12px;">Run multiple Nubycord instances as a team. The coordinator holds the member pool; workers claim batches and report stats back.</p>
+                        <div class="config-grid" style="margin-bottom:14px;">
+                            <div class="config-item">
+                                <label>This instance is a…</label>
+                                <select id="distributedMode" class="form-input">
+                                    <option value="standalone">Standalone (default)</option>
+                                    <option value="coordinator">Coordinator — I am the main node</option>
+                                    <option value="worker">Worker — I report to a coordinator</option>
+                                </select>
+                            </div>
+                            <div class="config-item">
+                                <label>Node Secret <span class="config-hint">(shared key between nodes)</span></label>
+                                <input type="password" id="nodeSecret" class="form-input" placeholder="A strong random key…" autocomplete="off" />
+                            </div>
+                            <div class="config-item" style="grid-column:1 / -1;">
+                                <label>Coordinator URL <span class="config-hint">(workers only)</span></label>
+                                <input type="text" id="coordinatorUrl" class="form-input" placeholder="https://your-coordinator.example.com" />
+                            </div>
+                        </div>
+
+                        <button id="saveEliteBtn" class="btn btn-success">Save Elite Settings</button>
+                        <div id="eliteStatus" style="display:none;margin-top:10px;font-size:0.88em;font-weight:600;"></div>
+                    </div>
+
+                    <!-- Campaign Templates -->
+                    <div class="card">
+                        <h2>Campaign Templates</h2>
+                        <p class="info-text">Save your current configuration as a named template and load it later in one click.</p>
+                        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;">
+                            <input type="text" id="templateNameInput" class="form-input" placeholder="Template name..." style="flex:1;min-width:160px;" />
+                            <button id="saveTemplateBtn" class="btn btn-success" style="white-space:nowrap;">Save as Template</button>
+                        </div>
+                        <div id="templateList" style="display:flex;flex-direction:column;gap:8px;"></div>
+                    </div>
+                </div>
+
+                <!-- ══ Advanced Tab ══ -->
+                <div id="advanced" class="tab-content">
+
+                    <!-- Server Auto-Joiner -->
+                    <div class="card">
+                        <h2>Server Auto-Joiner</h2>
+                        <p class="info-text">Join all valid tokens to a server via invite link. When auto-join is enabled, tokens will automatically join after validation.</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">
+                                <input type="checkbox" id="autoJoinEnabled" /> Enable Auto-Join on Token Validation
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Invite URL or Code</label>
+                            <input type="text" id="joinerInvite" class="form-input" placeholder="https://discord.gg/abc123 or just abc123" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Delay Between Joins (ms)</label>
+                            <input type="number" id="joinerDelay" class="form-input" min="500" placeholder="2000" />
+                        </div>
+                        <div class="button-group">
+                            <button id="joinAllTokensBtn" class="btn btn-success">Join All Tokens Now</button>
+                            <button id="saveJoinerConfigBtn" class="btn btn-warning">Save Joiner Config</button>
+                        </div>
+                        <div id="joinerStatus" style="margin-top:16px;display:none;">
+                            <p style="color:var(--text-secondary);font-size:0.88em;margin-bottom:8px;" id="joinerStatusSummary"></p>
+                            <div id="joinerStatusList" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Captcha Solving</h2>
+                        <p class="info-text">Store all your API keys at once. Toggle each service on/off individually. Enable rotation to automatically cycle through active services — if one fails, the next takes over.</p>
+
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-weight:600;cursor:pointer;">
+                                <input type="checkbox" id="captchaEnabled" /> Enable Captcha Solving
+                            </label>
+                        </div>
+
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+
+                            <!-- Anti-Captcha -->
+                            <div style="border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:var(--surface);">
+                                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+                                    <div style="display:flex;align-items:center;gap:10px;">
+                                        <span style="font-weight:700;color:var(--text);">Anti-Captcha</span>
+                                        <span style="font-size:0.72em;background:var(--success);color:#fff;padding:2px 7px;border-radius:20px;font-weight:700;">SUPPORTED</span>
+                                    </div>
+                                    <a href="https://anti-captcha.com" target="_blank" style="font-size:0.78em;color:var(--primary);text-decoration:none;">anti-captcha.com ↗</a>
+                                </div>
+                                <div class="captcha-key-row">
+                                    <input type="password" id="anticaptchaKey" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="form-input captcha-key-input" />
+                                    <button class="btn btn-warning captcha-check-btn" onclick="checkCaptchaBalance()">Check Balance</button>
+                                </div>
+                                <div id="anticaptchaStatus" style="display:none;margin-top:8px;font-size:0.83em;"></div>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top:16px;">
+                            <button id="saveCaptchaConfigBtn" class="btn btn-success">Save All</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Proxy Management</h2>
+                        <p class="info-text">Enable proxy support (HTTP/HTTPS, SOCKS4/5) for better anonymity</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">
+                                <input type="checkbox" id="proxyEnabled" /> Enable Proxy Mode
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Proxy List</label>
+                            <textarea id="proxyInput" class="form-textarea" placeholder="Format: http://ip:port&#10;socks5://ip:port&#10;socks5://user:pass@ip:port&#10;ip:port&#10;ip:port:user:pass" style="min-height:150px;"></textarea>
+                        </div>
+                        <div class="button-group">
+                            <button id="testProxiesBtn" class="btn btn-warning">Test All Proxies</button>
+                            <button id="saveProxyConfigBtn" class="btn btn-success">Save Proxy Config</button>
+                        </div>
+                        <div id="proxyStatus" style="margin-top:20px;display:none;">
+                            <p id="proxyStatusMessage"></p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Scraper Settings</h2>
+                        <p class="info-text">Configure scraper behavior</p>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label>Min Account Age (minutes)</label>
+                                <input type="number" id="minAccountAge" class="form-input" value="0" min="0" />
+                            </div>
+                            <div class="config-item">
+                                <label><input type="checkbox" id="filterAdmins" checked /> Filter Admins</label>
+                            </div>
+                            <div class="config-item">
+                                <label><input type="checkbox" id="filterBots" checked /> Filter Bots</label>
+                            </div>
+                        </div>
+                        <button id="saveScraperSettingsBtn" class="btn btn-success">Save Scraper Settings</button>
+                    </div>
+
+                    <div class="card">
+                        <h2>Browser Notifications</h2>
+                        <p class="info-text">Get a browser notification when a campaign finishes, even if this tab is in the background.</p>
+                        <div id="notificationStatus" style="margin-bottom:12px;color:var(--text-secondary);font-size:0.9em;"></div>
+                        <button id="enableNotificationsBtn" class="btn btn-warning">Enable Notifications</button>
+                    </div>
+
+                    <!-- ══ Global DM Deduplication ══ -->
+                    <div class="card">
+                        <h2>Global DM Deduplication</h2>
+                        <p class="info-text">Keep a permanent record of every member you've DM'd across all campaigns. When enabled, the same user is never DM'd twice.</p>
+                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-weight:600;cursor:pointer;">
+                                <input type="checkbox" id="globalDedupEnabled" /> Enable Global Deduplication
+                            </label>
+                            <div id="dedupStatsDisplay" style="font-size:0.85em;color:var(--text-secondary);">Registry: <strong id="dedupCount">—</strong> members</div>
+                        </div>
+                        <div class="button-group">
+                            <button id="saveGlobalDedupBtn" class="btn btn-success">Save Setting</button>
+                            <button id="clearDedupRegistryBtn" class="btn btn-danger" title="Clear dedup registry"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                        </div>
+                    </div>
+
+                    <!-- ══ Distributed Scraping ══ -->
+                    <div class="card">
+                        <h2>Multi-Token Distributed Scraping</h2>
+                        <p class="info-text">Run multiple tokens in parallel against the same server to scrape faster and with less rate-limit risk per token.</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Tokens (one per line — 2+ required)</label>
+                            <textarea id="distributedTokens" class="form-textarea" placeholder="Paste 2+ tokens, one per line..." style="min-height:100px;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Server ID (leave blank to use saved ID)</label>
+                            <input type="text" id="distributedServerId" class="form-input" placeholder="Leave blank to use Server ID from Overview" />
+                        </div>
+                        <div class="button-group">
+                            <button id="scrapeDistributedBtn" class="btn btn-success"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Start</button>
+                        </div>
+                        <div id="distributedStatus" style="display:none;margin-top:14px;font-size:0.88em;font-weight:600;"></div>
+                    </div>
+
+                    <!-- Discord API Status -->
+                    <div class="card">
+                        <h2>Discord API Status</h2>
+                        <p class="info-text">Live status from discordstatus.com — check before starting a campaign to confirm there are no outages.</p>
+                        <button id="checkDiscordStatusBtn" class="btn btn-secondary">Check Status</button>
+                        <div id="discordStatusResult" style="margin-top:14px;display:none;">
+                            <div id="discordStatusOverall" style="font-size:1em;font-weight:700;margin-bottom:10px;"></div>
+                            <div class="status-check-grid" id="discordStatusGrid"></div>
+                            <div id="discordStatusIncidents" style="margin-top:12px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk File Import -->
+                    <div class="card">
+                        <h2>Bulk File Import</h2>
+                        <p class="info-text">Import tokens or member IDs directly from a <code>.txt</code> file without copy-pasting. Use Merge to append, Replace to overwrite.</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap;">
+                            <div>
+                                <h3 style="font-size:0.9em;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Tokens</h3>
+                                <input type="file" id="importTokensFile" accept=".txt" class="form-input" style="font-size:0.82em;padding:7px;" />
+                                <div style="display:flex;gap:8px;margin-top:8px;">
+                                    <button id="importTokensMergeBtn"   class="btn btn-warning" style="font-size:0.82em;padding:7px 14px;flex:1;"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Merge</button>
+                                    <button id="importTokensReplaceBtn" class="btn btn-danger"  style="font-size:0.82em;padding:7px 14px;flex:1;"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Replace</button>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 style="font-size:0.9em;color:var(--text-secondary);margin-bottom:10px;font-weight:600;">Members</h3>
+                                <input type="file" id="importMembersFile" accept=".txt" class="form-input" style="font-size:0.82em;padding:7px;" />
+                                <div style="display:flex;gap:8px;margin-top:8px;">
+                                    <button id="importMembersMergeBtn"   class="btn btn-warning" style="font-size:0.82em;padding:7px 14px;flex:1;"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Merge</button>
+                                    <button id="importMembersReplaceBtn" class="btn btn-danger"  style="font-size:0.82em;padding:7px 14px;flex:1;"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Replace</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="importResult" style="margin-top:12px;font-size:0.85em;font-weight:600;display:none;"></div>
+                    </div>
+
+                    <!-- ══ Mutual Server Injection ══ -->
+                    <div class="card">
+                        <h2>Mutual Server Injection</h2>
+                        <p class="info-text">Join throwaway tokens into the target server before your campaign. This establishes mutual server membership which can unlock DMs for accounts that block non-friends.</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:8px;font-weight:600;">Throwaway Tokens (one per line)</label>
+                            <textarea id="mutualInjectTokens" class="form-textarea" placeholder="Paste throwaway tokens here, one per line..." style="min-height:100px;"></textarea>
+                        </div>
+                        <div class="config-grid" style="margin-bottom:14px;">
+                            <div class="config-item">
+                                <label>Invite Code or URL</label>
+                                <input type="text" id="mutualInjectInvite" class="form-input" placeholder="discord.gg/abc123 or just abc123" />
+                            </div>
+                            <div class="config-item">
+                                <label>Delay between joins (ms)</label>
+                                <input type="number" id="mutualInjectDelay" class="form-input" min="500" placeholder="3000" value="3000" />
+                            </div>
+                        </div>
+                        <button id="mutualInjectBtn" class="btn btn-success">Inject Tokens</button>
+                        <div id="mutualInjectStatus" style="display:none;margin-top:12px;font-size:0.85em;font-weight:600;"></div>
+                        <div id="mutualInjectResults" style="margin-top:12px;display:none;max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;"></div>
+                    </div>
+
+                    <!-- ══ Token Tier Management ══ -->
+                    <div class="card">
+                        <h2>Token Tier Management</h2>
+                        <p class="info-text">Tokens are classified as T1 Elite (30+ days, warmed), T2 Active (7–30 days), or T3 Fresh (new/unverified). T1 tokens fire first when the tier system is enabled in Config → Elite Automation.</p>
+                        <div class="button-group" style="margin-bottom:16px;">
+                            <button id="autoAssignTiersBtn" class="btn btn-warning">Auto-Assign All Tiers</button>
+                            <button id="refreshTiersBtn" class="btn btn-secondary">Refresh</button>
+                        </div>
+                        <div id="tierStatusMsg" style="display:none;margin-bottom:12px;font-size:0.88em;font-weight:600;"></div>
+                        <div id="tokenTierTable"><p style="color:var(--text-secondary);font-size:0.85em;text-align:center;padding:16px;">Load tokens and click Refresh to see tier assignments.</p></div>
+                    </div>
+
+                    <!-- ══ IP Reputation ══ -->
+                    <div class="card">
+                        <h2>IP Reputation Registry</h2>
+                        <p class="info-text">Tracks success/failure rates per proxy IP. IPs with a score below 20 are skipped during proxy assignment. Score starts at 50, rises on success, drops on errors and ban signals.</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <button id="refreshIpRepBtn" class="btn btn-secondary" style="padding:5px 10px;font-size:0.8em;">Refresh</button>
+                            <button id="clearIpRepBtn" class="btn btn-danger" style="padding:5px 12px;font-size:0.8em;" title="Clear all IP reputation data">Clear All</button>
+                        </div>
+                        <div id="ipRepTable"><p style="color:var(--text-secondary);font-size:0.85em;text-align:center;padding:16px;">No IP reputation data yet. Data accumulates as campaigns run.</p></div>
+                    </div>
+                </div>
+
+                <!-- ══ History Tab ══ -->
+                <div id="history" class="tab-content">
+                    <div class="card">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h2 style="margin:0;">Campaign History</h2>
+                            <div style="display:flex;gap:8px;align-items:center;">
+                                <button id="historyRefreshBtn" class="btn btn-secondary" style="padding:6px 10px;font-size:0.82em;"><svg class="btn-refresh-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                                <button id="exportHistoryCSVBtn" class="btn btn-warning" style="padding:6px 10px;font-size:0.82em;" title="Export CSV"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                                <button id="clearHistoryBtn" class="btn btn-danger" style="padding:6px 10px;font-size:0.85em;" title="Clear history"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <input id="historyFilterInput" type="text" class="history-filter-input" placeholder="Filter by label..." maxlength="60" autocomplete="off" />
+                        </div>
+                        <p class="info-text">A record of the last 50 campaigns. Saved automatically when a campaign stops or completes.</p>
+                        <div id="historyList">
+                            <p style="color:var(--text-secondary);text-align:center;padding:30px;">No campaign history yet. Run a campaign to see it here.</p>
+                        </div>
+                    </div>
+
+                    <!-- ══ Campaign Performance Chart ══ -->
+                    <div class="card" id="historyChartCard" style="display:none;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px;">
+                            <h2 style="margin:0;">Campaign Performance</h2>
+                            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                                <span id="hcTotalSentBadge"   style="padding:3px 10px;border-radius:12px;background:rgba(87,242,135,0.15);color:#57f287;font-size:0.8em;font-weight:700;"></span>
+                                <span id="hcTotalErrBadge"    style="padding:3px 10px;border-radius:12px;background:rgba(237,66,69,0.15);color:#ed4245;font-size:0.8em;font-weight:700;"></span>
+                                <span id="hcAvgRateBadge"     style="padding:3px 10px;border-radius:12px;background:rgba(88,101,242,0.15);color:#7c8ff5;font-size:0.8em;font-weight:700;"></span>
+                            </div>
+                        </div>
+                        <p class="info-text">DMs sent, errors, and success rate across your last 20 campaigns (oldest → newest).</p>
+                        <div class="history-chart-wrap" style="position:relative;height:220px;margin-top:12px;">
+                            <canvas id="historyChart"></canvas>
+                        </div>
+                        <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;" id="hcLegend">
+                            <span style="display:flex;align-items:center;gap:5px;font-size:0.78em;color:var(--text-secondary);"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#57f287;"></span>DMs Sent</span>
+                            <span style="display:flex;align-items:center;gap:5px;font-size:0.78em;color:var(--text-secondary);"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#ed4245;"></span>Errors</span>
+                            <span style="display:flex;align-items:center;gap:5px;font-size:0.78em;color:var(--text-secondary);"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#faa61a;"></span>Blocked</span>
+                            <span style="display:flex;align-items:center;gap:5px;font-size:0.78em;color:var(--text-secondary);"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(124,143,245,0.9);"></span>Success %</span>
+                        </div>
+                    </div>
+
+                    <!-- ══ Token Leaderboard ══ -->
+                    <div class="card" id="tokenLeaderboardCard" style="display:none;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px;">
+                            <h2 style="margin:0;">Token Leaderboard</h2>
+                            <span style="font-size:0.78em;color:var(--text-secondary);">Ranked by success rate across all history</span>
+                        </div>
+                        <p class="info-text">Aggregates every token that has appeared in a campaign. Tokens with more errors or blocks are ranked lower.</p>
+                        <div id="tokenLeaderboardTable"></div>
+                    </div>
+
+                    <!-- ══ DM Status Tracker ══ -->
+                    <div class="card" id="dmStatusCard">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+                            <h2 style="margin:0;">DM Status Tracker</h2>
+                            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                                <a id="exportDmStatusBtn" href="/api/dm-status/export" class="btn btn-warning" style="padding:6px 10px;font-size:0.82em;" title="Export CSV"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+                                <button id="clearDmStatusBtn" class="btn btn-danger" style="padding:6px 10px;font-size:0.85em;" title="Clear tracker"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                        </div>
+                        <p class="info-text">Live per-member outcome for the current campaign. Resets when a new campaign starts.</p>
+
+                        <!-- Summary badges -->
+                        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;" id="dmStatusBadges">
+                            <span id="dmsBadgeSent"    style="padding:4px 14px;border-radius:12px;background:rgba(87,242,135,0.13);color:#57f287;font-size:0.82em;font-weight:700;">0 sent</span>
+                            <span id="dmsBadgeReplied" style="padding:4px 14px;border-radius:12px;background:rgba(88,101,242,0.15);color:#7c8ff5;font-size:0.82em;font-weight:700;">0 replied</span>
+                            <span id="dmsBadgeBlocked" style="padding:4px 14px;border-radius:12px;background:rgba(250,166,26,0.13);color:#faa61a;font-size:0.82em;font-weight:700;">0 blocked</span>
+                            <span id="dmsBadgeError"   style="padding:4px 14px;border-radius:12px;background:rgba(237,66,69,0.13);color:#ed4245;font-size:0.82em;font-weight:700;">0 errors</span>
+                            <span id="dmsBadgeTotal"   style="padding:4px 14px;border-radius:12px;background:rgba(255,255,255,0.05);color:var(--text-secondary);font-size:0.82em;font-weight:700;">0 total</span>
+                            <span id="dmsBadgeRate"    style="padding:4px 14px;border-radius:12px;background:rgba(255,255,255,0.05);color:var(--text-secondary);font-size:0.82em;font-weight:700;">0% response rate</span>
+                        </div>
+
+                        <!-- Filter + Search row -->
+                        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+                            <button class="btn btn-secondary dms-filter active" data-filter="all"     style="padding:4px 12px;font-size:0.8em;">All</button>
+                            <button class="btn btn-secondary dms-filter"        data-filter="sent"    style="padding:4px 12px;font-size:0.8em;color:#57f287;">Sent</button>
+                            <button class="btn btn-secondary dms-filter"        data-filter="replied" style="padding:4px 12px;font-size:0.8em;color:#7c8ff5;">Replied</button>
+                            <button class="btn btn-secondary dms-filter"        data-filter="blocked" style="padding:4px 12px;font-size:0.8em;color:#faa61a;">Blocked</button>
+                            <button class="btn btn-secondary dms-filter"        data-filter="error"   style="padding:4px 12px;font-size:0.8em;color:#ed4245;">Error</button>
+                            <input id="dmsSearchInput" type="text" class="form-input" placeholder="Search member ID or username…" style="max-width:260px;padding:5px 10px;font-size:0.82em;margin-left:auto;" />
+                        </div>
+
+                        <!-- Table -->
+                        <div style="overflow-x:auto;">
+                            <table id="dmsTable" style="width:100%;border-collapse:collapse;font-size:0.82em;">
+                                <thead>
+                                    <tr style="color:var(--text-secondary);border-bottom:1px solid var(--border);">
+                                        <th style="text-align:left;padding:6px 10px;font-weight:600;">Member ID</th>
+                                        <th style="text-align:left;padding:6px 10px;font-weight:600;">Username</th>
+                                        <th style="text-align:left;padding:6px 10px;font-weight:600;">Status</th>
+                                        <th style="text-align:left;padding:6px 10px;font-weight:600;">Reason / Reply</th>
+                                        <th style="text-align:left;padding:6px 10px;font-weight:600;">Token</th>
+                                        <th style="text-align:left;padding:6px 10px;font-weight:600;">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dmsTableBody">
+                                    <tr><td colspan="6" style="text-align:center;padding:28px;color:var(--text-secondary);">No DM outcomes yet — start a campaign to see results here.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- A/B Test Stats -->
+                    <div class="card" id="abStatsCard">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                            <h2 style="margin:0;">A/B Message Testing</h2>
+                            <div style="display:flex;gap:8px;">
+                                <button id="refreshAbStatsBtn" class="btn btn-secondary" style="padding:5px 10px;font-size:0.8em;"><svg class="btn-refresh-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                                <button id="clearAbStatsBtn" class="btn btn-danger" style="padding:5px 12px;font-size:0.8em;" title="Reset A/B stats"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                        </div>
+                        <p class="info-text">Tracks how often each message variant is sent. Only populated when multiple DM messages are defined.</p>
+                        <div id="abStatsList"><p style="color:var(--text-secondary);font-size:0.85em;text-align:center;padding:16px;">Start a campaign with multiple messages to see A/B statistics here.</p></div>
+                    </div>
+                </div>
+
+                <!-- ══ Logs Tab ══ -->
+                <div id="logs" class="tab-content">
+                    <div class="card">
+                        <div class="logs-header">
+                            <div>
+                                <h2>Live Process Logs</h2>
+                                <p class="info-text">Real-time output from all running processes. Logs will reset after 3 hours or when a new campaign starts.</p>
+                            </div>
+                            <div class="logs-controls">
+                                <input type="text" id="logSearchInput" class="log-search-input" placeholder="Search logs..." />
+                                <span class="log-badge log-badge-success" data-filter="success" title="Filter: SUCCESS">SUCCESS</span>
+                                <span class="log-badge log-badge-error"   data-filter="error"   title="Filter: ERROR">ERROR</span>
+                                <span class="log-badge log-badge-warn"    data-filter="warn"    title="Filter: CAPTCHA">CAPTCHA</span>
+                                <span class="log-badge log-badge-blocked" data-filter="blocked" title="Filter: BLOCKED">BLOCKED</span>
+                                <span class="log-badge log-badge-ready"   data-filter="ready"   title="Filter: READY">READY</span>
+                                <span class="log-badge log-badge-done"    data-filter="done"    title="Filter: DONE">DONE</span>
+                                <div class="logs-action-btns">
+                                <button id="copyLogsBtn"    class="btn btn-secondary" style="padding:6px 14px;font-size:0.82em;">Copy</button>
+                                <button id="downloadLogsBtn" class="btn btn-secondary" style="padding:6px 10px;font-size:0.82em;" title="Download logs as .txt"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                                <button id="clearLogsBtn"   class="btn btn-danger"    style="padding:6px 10px;font-size:0.82em;" title="Clear logs"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                                <button id="pauseLogsBtn"   class="btn btn-warning"   style="padding:6px 14px;font-size:0.82em;">Pause</button>
+                                <button id="refreshLogsBtn" class="btn btn-secondary" style="padding:6px 10px;font-size:0.82em;" title="Refresh logs"><svg class="btn-refresh-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-stats" id="logStats">
+                            <span id="logCountSuccess">0 success</span>
+                            <span id="logCountError">0 errors</span>
+                            <span id="logCountWarn">0 captcha</span>
+                            <span id="logCountBlocked">0 blocked</span>
+                            <span id="logTotal">0 total</span>
+                        </div>
+                        <div class="log-viewer" id="logViewer">
+                            <div class="log-empty" id="logEmpty">No logs yet — start a campaign or scrape to see output here.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══ Panel Tab (Admin only) ══ -->
+                <div id="panel" class="tab-content">
+
+                    <div class="card">
+                        <h2>Discord Webhook Config</h2>
+                        <p class="info-text">Receive a rich embed in Discord whenever a user logs in. Shows display name, mutex, role, IP, and login count.</p>
+                        <div class="form-group" style="margin-top:16px;">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:8px;font-weight:600;">Webhook URL</label>
+                            <input type="text" id="panelWebhookUrl" class="form-input" placeholder="https://discord.com/api/webhooks/..." />
+                        </div>
+                        <div class="button-group" style="margin-top:12px;">
+                            <button id="panelSaveWebhookBtn" class="btn btn-success">Save Webhook</button>
+                            <button id="panelTestWebhookBtn" class="btn btn-warning">Test Webhook</button>
+                        </div>
+                        <div id="panelWebhookStatus" style="margin-top:12px;display:none;">
+                            <p id="panelWebhookStatusMsg" style="font-weight:600;font-size:0.9em;"></p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Generate Access Key</h2>
+                        <p class="info-text">Generate a new mutex for a user. They set their password on first login.</p>
+                        <div style="margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                            <button id="generateMutexBtn" class="btn btn-primary" style="padding:10px 24px;">Generate Mutex</button>
+                        </div>
+                        <div id="generatedMutexBox" style="display:none;margin-top:18px;background:var(--surface);border:1px solid var(--success);border-radius:10px;padding:16px 20px;">
+                            <div style="color:var(--text-secondary);font-size:0.75em;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">New Access Key</div>
+                            <div id="generatedMutexVal" style="font-family:monospace;font-size:1.05em;color:var(--success);word-break:break-all;font-weight:600;letter-spacing:0.04em;"></div>
+                            <button onclick="copyGeneratedMutex()" style="margin-top:10px;padding:7px 16px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-secondary);font-family:inherit;font-size:0.85em;cursor:pointer;" id="copyMutexBtn">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:20px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                            <h2 style="margin:0;">User Management</h2>
+                            <button id="panelRefreshBtn" style="padding:6px 10px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-secondary);font-family:inherit;font-size:0.82em;cursor:pointer;line-height:1;"><svg class="btn-refresh-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                        </div>
+                        <div id="panelUserTable">
+                            <p style="color:var(--text-secondary);text-align:center;padding:24px;font-size:0.9em;">Loading users...</p>
+                        </div>
+                    </div>
+
+                    <!-- Password Change -->
+                    <div class="card">
+                        <h2>Change Password</h2>
+                        <p class="info-text">Update your account password. Minimum 8 characters.</p>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label>Current Password</label>
+                                <input type="password" id="currentPassword" class="form-input" placeholder="Current password" autocomplete="current-password" />
+                            </div>
+                            <div class="config-item">
+                                <label>New Password</label>
+                                <input type="password" id="newPassword" class="form-input" placeholder="New password (8+ chars)" autocomplete="new-password" />
+                            </div>
+                        </div>
+                        <button id="changePasswordBtn" class="btn btn-warning" style="margin-top:12px;">Change Password</button>
+                        <div id="changePasswordStatus" style="margin-top:10px;font-size:0.88em;font-weight:600;display:none;"></div>
+                    </div>
+
+                    <!-- App Version (admin only, shown via JS) -->
+                    <div class="card" id="versionConfigCard" style="display:none;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h2 style="margin:0;">App Version</h2>
+                            <span id="versionCurrentBadge" style="font-size:0.8em;color:var(--success);font-weight:700;font-family:monospace;"></span>
+                        </div>
+                        <p class="info-text">Configure the version string shown in the sidebar for all users.</p>
+                        <div style="display:flex;gap:10px;align-items:center;">
+                            <input type="text" id="appVersionInput" class="form-input" placeholder="e.g. v2.3.0" style="flex:1;" />
+                            <button id="saveAppVersionBtn" class="btn btn-success" style="white-space:nowrap;flex-shrink:0;flex-grow:0;width:auto;padding:10px 14px;" title="Save version"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></button>
+                        </div>
+                    </div>
+
+                    <!-- Session Manager (admin only, shown via JS) -->
+                    <div class="card" id="sessionManagerCard" style="display:none;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                            <h2 style="margin:0;">Active Sessions</h2>
+                            <div style="display:flex;gap:8px;">
+                                <button id="refreshSessionsBtn" class="btn btn-secondary" style="padding:5px 10px;font-size:0.8em;"><svg class="btn-refresh-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
+                                <button id="killAllSessionsBtn" class="btn btn-danger" style="padding:5px 10px;font-size:0.8em;" title="Kill all sessions"><svg class="btn-icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                            </div>
+                        </div>
+                        <p class="info-text">View and terminate active login sessions. Only visible to admin users.</p>
+                        <div id="sessionList"><p style="color:var(--text-secondary);font-size:0.85em;text-align:center;padding:16px;">Loading sessions...</p></div>
+                    </div>
+
+                    <!-- ══ Campaign Webhook Alerts ══ -->
+                    <div class="card">
+                        <h2>Campaign Webhook Alerts</h2>
+                        <p class="info-text">Receive Discord embed notifications for campaign events. This is your personal webhook — separate from the admin login webhook.</p>
+                        <div class="form-group">
+                            <label style="display:block;color:var(--text-secondary);margin-bottom:8px;font-weight:600;">Webhook URL</label>
+                            <input type="text" id="campaignWebhookUrl" class="form-input" placeholder="https://discord.com/api/webhooks/..." />
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:8px;margin:14px 0;">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="webhookEvtStarted" /> Campaign Started
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="webhookEvtCompleted" /> Campaign Completed
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="webhookEvtStopped" /> Campaign Stopped (manual)
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="webhookEvtRetired" /> Token Retired (limit hit)
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="webhookEvtUnhealthy" /> Token Unhealthy (errors)
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;">
+                                <input type="checkbox" id="webhookEvtRlSpike" /> ⚡ Rate Limit Spike (per token)
+                            </label>
+                        </div>
+                        <div style="margin:10px 0 14px;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;">
+                            <div>
+                                <label style="display:block;font-size:0.78em;color:var(--text-secondary);font-weight:600;margin-bottom:4px;">Rate Limit Threshold</label>
+                                <input type="number" id="rlAlertThreshold" min="1" max="100" value="5" style="width:80px;" class="form-input" title="Fire alert after this many rate limits" />
+                                <span style="font-size:0.75em;color:var(--text-secondary);margin-left:5px;">hits</span>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:0.78em;color:var(--text-secondary);font-weight:600;margin-bottom:4px;">Within Window</label>
+                                <input type="number" id="rlAlertWindowSec" min="5" max="3600" value="60" style="width:80px;" class="form-input" title="Sliding window in seconds" />
+                                <span style="font-size:0.75em;color:var(--text-secondary);margin-left:5px;">sec</span>
+                            </div>
+                            <div style="font-size:0.75em;color:var(--text-secondary);max-width:200px;line-height:1.4;">Alert fires once the token hits the threshold within the window, then resets.</div>
+                        </div>
+                        <div style="margin:0 0 14px;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);">
+                            <label style="display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:0.88em;cursor:pointer;margin-bottom:10px;">
+                                <input type="checkbox" id="rlSpikeAutoSuspend" />
+                                <span>⏸ Auto-suspend token after rate-limit spike</span>
+                            </label>
+                            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                                <label style="font-size:0.78em;color:var(--text-secondary);font-weight:600;">Suspend for</label>
+                                <input type="number" id="rlSpikeSuspendSec" min="10" max="7200" value="300" style="width:80px;" class="form-input" title="How many seconds to suspend the token" />
+                                <span style="font-size:0.75em;color:var(--text-secondary);">sec</span>
+                                <span style="font-size:0.75em;color:var(--text-secondary);max-width:210px;line-height:1.4;">Token disconnects, waits, then automatically re-logs and resumes sending.</span>
+                            </div>
+                        </div>
+                        <button id="saveCampaignWebhookBtn" class="btn btn-success">Save Alert Config</button>
+                        <div id="campaignWebhookStatus" style="display:none;margin-top:10px;font-size:0.88em;font-weight:600;"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="notification" id="notification"></div>
+        </div>
+
+        <!-- ══ Custom Modal ══ -->
+        <div id="zModal" class="z-overlay">
+            <div class="z-modal">
+                <div class="z-modal-icon" id="zModalIcon"></div>
+                <h3 class="z-modal-title" id="zModalTitle"></h3>
+                <p class="z-modal-msg" id="zModalMessage"></p>
+                <div class="z-modal-actions">
+                    <button class="z-btn z-btn-cancel" id="zModalCancel">Cancel</button>
+                    <button class="z-btn z-btn-confirm" id="zModalConfirm">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="scripts/script.js"></script>
+    </body>
+</html>

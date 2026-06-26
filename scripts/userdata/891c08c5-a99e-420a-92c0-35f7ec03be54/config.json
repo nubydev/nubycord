@@ -1,0 +1,23 @@
+{
+  "login_delay_min": 2000,
+  "login_delay_max": 4000,
+  "dm_delay_min": 6000,
+  "dm_delay_max": 8000,
+  "per_token_limit": 0,
+  "token_cooldown_ms": 30000,
+  "dm_messages": [],
+  "proxy": {
+    "enabled": false,
+    "proxies": []
+  },
+  "captcha": {
+    "enabled": true,
+    "apiKey": "e1a38b051070d9951d413b074d2d11c0"
+  },
+  "scraper": {
+    "type": "opcode14",
+    "minAccountAgeMinutes": 0,
+    "filterAdmins": true,
+    "filterBots": true
+  }
+}
