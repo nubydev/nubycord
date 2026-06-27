@@ -129,6 +129,8 @@ if [ -d "${APP_DIR}/.git" ]; then
 else
     info "Cloning repo to ${APP_DIR}…"
     sudo rm -rf "$APP_DIR"
+    sudo mkdir -p "$APP_DIR"
+    sudo chown "${CURRENT_USER}:${CURRENT_USER}" "$APP_DIR"
     git clone "$CLONE_URL" "$APP_DIR" --quiet
     cd "$APP_DIR"
 fi
