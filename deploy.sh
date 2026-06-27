@@ -14,7 +14,7 @@ set -euo pipefail
 #  ▼▼▼  ONLY THIS FIELD NEEDS TO BE FILLED IN  ▼▼▼
 # ══════════════════════════════════════════════════════
 
-GITHUB_TOKEN="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"      # GitHub Classic Token (repo scope) — only value you must set
+GITHUB_TOKEN=""      # GitHub Classic Token (repo scope) — only value you must set
 
 # ══════════════════════════════════════════════════════
 #  Everything below is pre-configured — do not change
@@ -228,6 +228,7 @@ server {
 }
 NGINX
 
+sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
 sudo cp "$NGINX_TMP" "$NGINX_CONF"
 rm -f "$NGINX_TMP"
 sudo ln -sf "$NGINX_CONF" "/etc/nginx/sites-enabled/${DOMAIN}"
