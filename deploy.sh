@@ -128,7 +128,7 @@ if [ -d "${APP_DIR}/.git" ]; then
         || git reset --hard origin/master --quiet
 else
     info "Cloning repo to ${APP_DIR}…"
-    rm -rf "$APP_DIR"
+    sudo rm -rf "$APP_DIR"
     git clone "$CLONE_URL" "$APP_DIR" --quiet
     cd "$APP_DIR"
 fi
