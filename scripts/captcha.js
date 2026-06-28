@@ -177,29 +177,19 @@ class CaptchaSolver {
 
     async _2capPoll(taskId) {
         await sleep(10000);
-        let lastErr;
-        for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-            if (attempt > 0) await sleep(RETRY_BASE_MS * attempt);
-            try {
-                for (let i = 0; i < MAX_POLLS; i++) {
-                    await sleep(POLL_INTERVAL);
-                    const pollRes = await axios.get(`${TWOCAP_BASE}/res.php`, {
-                        params: { key: this.apiKey, action: 'get', id: taskId, json: 1 },
-                        timeout: 10000,
-                    });
-                    if (pollRes.data.status === 0) {
-                        if (pollRes.data.request === 'CAPCHA_NOT_READY') continue;
-                        throw new Error(`2Captcha: ${pollRes.data.request}`);
-                    }
-                    return pollRes.data.request;
-                }
-                throw new Error(`2Captcha timed out after ${(MAX_POLLS * POLL_INTERVAL) / 1000}s`);
-            } catch (err) {
-                lastErr = err;
-                if (err.message.includes('ERROR_ZERO_BALANCE') || err.message.includes('ERROR_KEY_DOES_NOT_EXIST')) throw err;
+        for (let i = 0; i < MAX_POLLS; i++) {
+            await sleep(POLL_INTERVAL);
+            const pollRes = await axios.get(`${TWOCAP_BASE}/res.php`, {
+                params: { key: this.apiKey, action: 'get', id: taskId, json: 1 },
+                timeout: 10000,
+            });
+            if (pollRes.data.status === 0) {
+                if (pollRes.data.request === 'CAPCHA_NOT_READY') continue;
+                throw new Error(`2Captcha: ${pollRes.data.request}`);
             }
+            return pollRes.data.request;
         }
-        throw lastErr;
+        throw new Error(`2Captcha timed out after ${(MAX_POLLS * POLL_INTERVAL) / 1000}s`);
     }
 }
 

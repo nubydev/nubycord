@@ -2188,3 +2188,90 @@ body.light-mode .log-search-input {
     0%, 100% { opacity: 1; transform: scale(1); }
     50%       { opacity: 0.4; transform: scale(0.7); }
 }
+
+/* ── DM Status filter row ───────────────────────────────────────────────────── */
+.dms-filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.dms-filter-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* ── Global table no-wrap ───────────────────────────────────────────────────── */
+table {
+    white-space: nowrap;
+}
+table th,
+table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* Scrollable table wrappers — ensure every table container scrolls horizontally */
+.table-wrap,
+[style*="overflow-x:auto"],
+[style*="overflow-x: auto"] {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── Status badge / pill no-wrap ────────────────────────────────────────────── */
+.status-badge,
+.lts-row span,
+.lts-row > span,
+span[style*="border-radius"],
+[class*="status-pill"],
+[class*="score-pill"],
+[class*="tier-badge"],
+[class*="token-score"],
+[class*="thm-status"],
+[class*="history-stat"] {
+    white-space: nowrap;
+}
+
+/* ── Inline dot + text combos must never split ──────────────────────────────── */
+.status-dot-label,
+.score-tier-ok,
+.score-tier-warn,
+.score-tier-bad {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Prevent any flex item inside a table cell from wrapping */
+table td > span,
+table td > div,
+table td > a,
+table td > button {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .dms-filter-btns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        width: 100%;
+    }
+    .dms-filter-btns .btn {
+        width: 100%;
+        white-space: nowrap;
+    }
+    .dms-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .dms-filter-row #dmsSearchInput {
+        max-width: 100% !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

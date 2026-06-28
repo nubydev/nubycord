@@ -719,6 +719,19 @@ async function loadData() {
             }
         }
 
+        // Toggle Schedule / Cancel buttons — only one visible at a time
+        const schedBtn       = document.getElementById('scheduleBtn');
+        const cancelSchedBtn = document.getElementById('cancelScheduleBtn');
+        if (schedBtn && cancelSchedBtn) {
+            if (data.scheduled) {
+                schedBtn.style.display       = 'none';
+                cancelSchedBtn.style.display = '';
+            } else {
+                schedBtn.style.display       = '';
+                cancelSchedBtn.style.display = 'none';
+            }
+        }
+
         // Checkpoint resume banner — only show when campaign is not running
         const cpBanner = document.getElementById('checkpointBanner');
         if (cpBanner) {
@@ -1650,7 +1663,7 @@ async function cancelSchedule() {
     } catch (error) {
         showNotification('Error cancelling schedule', 'error');
     } finally {
-        if (btn) { btn.textContent = 'Cancel Schedule'; btn.disabled = false; }
+        if (btn) { btn.textContent = 'Cancel'; btn.disabled = false; }
     }
 }
 

@@ -204,7 +204,7 @@
                                 </select>
                                 <div class="schedule-btn-row">
                                     <button id="scheduleBtn" class="btn btn-warning">Schedule</button>
-                                    <button id="cancelScheduleBtn" class="btn btn-secondary">Cancel</button>
+                                    <button id="cancelScheduleBtn" class="btn btn-secondary" style="display:none;">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -1108,11 +1108,11 @@
 
                     <!-- ══ DM Status Tracker ══ -->
                     <div class="card" id="dmStatusCard">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-                            <h2 style="margin:0;">DM Status Tracker</h2>
-                            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                                <a id="exportDmStatusBtn" href="/api/dm-status/export" class="btn btn-warning" style="padding:6px 10px;font-size:0.82em;" title="Export CSV"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-                                <button id="clearDmStatusBtn" class="btn btn-danger" style="padding:6px 10px;font-size:0.85em;" title="Clear tracker"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:nowrap;gap:8px;">
+                            <h2 style="margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">DM Status Tracker</h2>
+                            <div style="display:flex;gap:4px;align-items:center;flex-shrink:0;">
+                                <a id="exportDmStatusBtn" href="/api/dm-status/export" class="btn btn-warning" style="padding:5px 8px;font-size:0.82em;line-height:1;" title="Export CSV"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+                                <button id="clearDmStatusBtn" class="btn btn-danger" style="padding:5px 8px;font-size:0.85em;line-height:1;" title="Clear tracker"><svg class="btn-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
                             </div>
                         </div>
                         <p class="info-text">Live per-member outcome for the current campaign. Resets when a new campaign starts.</p>
@@ -1128,13 +1128,15 @@
                         </div>
 
                         <!-- Filter + Search row -->
-                        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
-                            <button class="btn btn-secondary dms-filter active" data-filter="all"     style="padding:4px 12px;font-size:0.8em;">All</button>
-                            <button class="btn btn-secondary dms-filter"        data-filter="sent"    style="padding:4px 12px;font-size:0.8em;color:#57f287;">Sent</button>
-                            <button class="btn btn-secondary dms-filter"        data-filter="replied" style="padding:4px 12px;font-size:0.8em;color:#7c8ff5;">Replied</button>
-                            <button class="btn btn-secondary dms-filter"        data-filter="blocked" style="padding:4px 12px;font-size:0.8em;color:#faa61a;">Blocked</button>
-                            <button class="btn btn-secondary dms-filter"        data-filter="error"   style="padding:4px 12px;font-size:0.8em;color:#ed4245;">Error</button>
-                            <input id="dmsSearchInput" type="text" class="form-input" placeholder="Search member ID or username…" style="max-width:260px;padding:5px 10px;font-size:0.82em;margin-left:auto;" />
+                        <div class="dms-filter-row">
+                            <div class="dms-filter-btns">
+                                <button class="btn btn-secondary dms-filter active" data-filter="all"     style="padding:4px 12px;font-size:0.8em;">All</button>
+                                <button class="btn btn-secondary dms-filter"        data-filter="sent"    style="padding:4px 12px;font-size:0.8em;color:#57f287;">Sent</button>
+                                <button class="btn btn-secondary dms-filter"        data-filter="replied" style="padding:4px 12px;font-size:0.8em;color:#7c8ff5;">Replied</button>
+                                <button class="btn btn-secondary dms-filter"        data-filter="blocked" style="padding:4px 12px;font-size:0.8em;color:#faa61a;">Blocked</button>
+                                <button class="btn btn-secondary dms-filter"        data-filter="error"   style="padding:4px 12px;font-size:0.8em;color:#ed4245;">Error</button>
+                            </div>
+                            <input id="dmsSearchInput" type="text" class="form-input" placeholder="Search member ID or username…" style="max-width:260px;padding:5px 10px;font-size:0.82em;" />
                         </div>
 
                         <!-- Table -->
