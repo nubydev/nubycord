@@ -29,30 +29,20 @@ ssh ubuntu@YOUR_VPS_IP
 
 > Substitute `ubuntu` with your actual username (`admin`, `ec2-user`, etc.)
 
-### 2. Download `deploy.sh` directly from the private repo
+### 2. Download `deploy.sh` and run it
+
+Replace `YOUR_GITHUB_TOKEN` with your GitHub Classic Token (repo scope):
 
 ```bash
-curl -H "Authorization: token YOUR_GITHUB_TOKEN" \
-     -H "Accept: application/vnd.github.v3.raw" \
-     -L "https://api.github.com/repos/nubydev/nubycord/contents/deploy.sh" \
-     -o deploy.sh
+curl -fsSL "https://YOUR_GITHUB_TOKEN@raw.githubusercontent.com/nubydev/nubycord/main/deploy.sh" -o deploy.sh && bash deploy.sh
 ```
 
-### 3. Set your GitHub token inside the script
-
-Open it (`nano deploy.sh`) and fill in the single required line:
-
-```bash
-GITHUB_TOKEN=""      # ← paste your GitHub Classic Token here
-```
-
-Everything else — Supabase URL, service key, session secret, domain, repo — is already pre-filled.
-
-### 4. Run it
-
-```bash
-chmod +x deploy.sh && bash deploy.sh
-```
+> **If you already have a `deploy.sh` on the server** with the token filled in, use this to refresh it and re-run:
+> ```bash
+> TOKEN=$(grep 'GITHUB_TOKEN="' ~/deploy.sh | cut -d'"' -f2) && \
+> curl -fsSL "https://${TOKEN}@raw.githubusercontent.com/nubydev/nubycord/main/deploy.sh" -o ~/deploy.sh && \
+> bash ~/deploy.sh
+> ```
 
 You may be prompted for your **sudo password once** at the start. After that the script runs entirely non-interactively and completes in 5–10 minutes.
 

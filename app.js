@@ -58,6 +58,22 @@ const SESSION_DIR = path.join(__dirname, '.sessions');
 if (!fs.existsSync(SESSION_DIR)) fs.mkdirSync(SESSION_DIR, { recursive: true });
 
 app.use(express.json());
+
+// ─── Login rate limiter (per-IP, no external packages) ───────────────────────
+const _loginAttempts = new Map();
+const LOGIN_MAX      = 10;
+const LOGIN_WINDOW   = 15 * 60 * 1000; // 15 minutes
+function _checkLoginRL(ip) {
+    const now = Date.now();
+    let e = _loginAttempts.get(ip);
+    if (!e || now > e.resetAt) { e = { count: 0, resetAt: now + LOGIN_WINDOW }; _loginAttempts.set(ip, e); }
+    e.count++;
+    if (e.count > LOGIN_MAX) return { ok: false, retryAfter: Math.ceil((e.resetAt - now) / 1000) };
+    return { ok: true };
+}
+setInterval(() => { const now = Date.now(); for (const [k, v] of _loginAttempts) if (now > v.resetAt) _loginAttempts.delete(k); }, 30 * 60 * 1000);
+// ─────────────────────────────────────────────────────────────────────────────
+
 app.use(session({
     store: new FileStore({ path: SESSION_DIR, retries: 1, ttl: 7 * 24 * 60 * 60 }),
     secret: process.env.SESSION_SECRET,
@@ -304,6 +320,9 @@ app.post('/auth/setup-password', async (req, res) => {
 
 app.post('/auth/login', async (req, res) => {
     try {
+        const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+        const rl = _checkLoginRL(ip);
+        if (!rl.ok) return res.status(429).json({ success: false, message: `Too many login attempts. Try again in ${Math.ceil(rl.retryAfter / 60)} minute(s).` });
         const { mutex, password } = req.body;
         const user = await Auth.getUserByMutex(mutex);
         if (!user || !user.password_hash) return res.json({ success: false, message: 'Invalid credentials' });
@@ -315,7 +334,6 @@ app.post('/auth/login', async (req, res) => {
         req.session.isAdmin     = user.is_admin;
         req.session.displayName = displayName;
         const loginCount = Settings.incrementLoginCount(mutex);
-        const ip     = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket.remoteAddress || 'Unknown';
         const ua     = req.headers['user-agent'] || 'Unknown';
         const source = req.headers['referer'] || req.headers['origin'] || 'Unknown';
         fireLoginWebhook(user, displayName, 'returning', loginCount, ip, ua, source);
@@ -428,7 +446,7 @@ app.get('/admin.html', requireAuth, (req, res) => {
 // Static files (login.html served above; everything else gated)
 app.use((req, res, next) => {
     const pub = ['/login.html', '/setup', '/favicon.ico', '/logo.png', '/styles.css', '/setup.html', '/robots.txt', '/sitemap.xml', '/manifest.json'];
-    if (pub.some(p => req.path === p) || req.path.startsWith('/auth/')) return next();
+    if (pub.some(p => req.path === p) || req.path.startsWith('/auth/') || req.path.startsWith('/scripts/')) return next();
     requireAuth(req, res, next);
 });
 
@@ -772,7 +790,9 @@ app.post('/api/update-config', express.json(), requireAuth, (req, res) => {
 // ─── API: Tokens / Members / Server ID ───────────────────────────────────────
 app.post('/api/update-tokens', express.json(), requireAuth, (req, res) => {
     try {
-        saveFile(req.session.userId, 'tokens.txt', req.body.tokens.filter(t => t.trim()).join('\n'));
+        const tokens = req.body.tokens;
+        if (!Array.isArray(tokens)) return res.json({ success: false, message: 'tokens must be an array' });
+        saveFile(req.session.userId, 'tokens.txt', tokens.filter(t => t && t.trim()).join('\n'));
         res.json({ success: true, message: 'Tokens updated' });
     } catch (error) {
         res.json({ success: false, message: error.message });
@@ -961,7 +981,9 @@ app.post('/api/join-server', express.json(), requireAuth, async (req, res) => {
 
 app.post('/api/update-members', express.json(), requireAuth, (req, res) => {
     try {
-        saveFile(req.session.userId, 'members.txt', req.body.members.filter(m => m.trim()).join('\n'));
+        const members = req.body.members;
+        if (!Array.isArray(members)) return res.json({ success: false, message: 'members must be an array' });
+        saveFile(req.session.userId, 'members.txt', members.filter(m => m && m.trim()).join('\n'));
         res.json({ success: true, message: 'Members updated' });
     } catch (error) {
         res.json({ success: false, message: error.message });

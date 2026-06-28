@@ -1,1 +1,1 @@
-add a rate-limit per-IP on the /auth/login endpoint to prevent brute-force password attacks (currently unlimited login attempts are allowed). 
+add a live "Replies" inbox tab that shows all DM replies received across tokens during a campaign in real-time, with member ID, reply content, timestamp, and a quick-copy button.
