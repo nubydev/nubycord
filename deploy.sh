@@ -13,7 +13,7 @@ set -euo pipefail
 #  ▼▼▼  ONLY THIS FIELD NEEDS TO BE FILLED IN  ▼▼▼
 # ══════════════════════════════════════════════════════
 
-GITHUB_TOKEN=""      # GitHub Classic Token (repo scope)
+GITHUB_TOKEN="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"      # GitHub Classic Token (repo scope)
 
 # ══════════════════════════════════════════════════════
 #  Everything below is pre-configured — do not change
