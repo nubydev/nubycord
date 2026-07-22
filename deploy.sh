@@ -21,8 +21,8 @@ GITHUB_TOKEN="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"      # GitHub Classic To
 
 CERTBOT_EMAIL="evolvfork@gmail.com"
 
-SUPABASE_URL="https://iubrlcflomfdcxkryeox.supabase.co"
-SUPABASE_SERVICE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1YnJsY2Zsb21mZGN4a3J5ZW94Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzA3OTI3NSwiZXhwIjoyMDg4NjU1Mjc1fQ.G7hHY29XiHPsW5PQ6B7c8oQ5ghGH5_f_4jsSCTJBnog"
+SUPABASE_URL="https://hogwsfbjftzruucyfknh.supabase.co"
+SUPABASE_SERVICE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvZ3dzZmJqZnR6cnV1Y3lma25oIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDY4MDk4OCwiZXhwIjoyMTAwMjU2OTg4fQ.aVbr1IpEQpCtWqf-ohaVFCiYFSYnlAUfUhQvDhnemKU "
 SESSION_SECRET="fDmNJphrWWZsnuuQ8vokNS1SFiUjafJRzN7MlAE8RJosn6UjlM2FyPJnssRgnIdF7K30pMvPRV7X3mTd/yylGQ=="
 
 DOMAIN="nubycord.ydns.eu"
